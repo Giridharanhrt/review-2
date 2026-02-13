@@ -42,6 +42,8 @@ export async function POST(req: Request) {
             priceSensitivity,
             brandLoyalty,
             emotionalConnection,
+            improvementHint,
+            regenerateType,
         } = body;
 
         // Validate required fields
@@ -75,27 +77,33 @@ export async function POST(req: Request) {
             : undefined;
 
         // Generate review
-        const result = await generateReview({
-            orgName,
-            orgType,
-            attenderName,
-            shopLocation: locationLabel,
-            orgDescription,
-            customerName,
-            customerPhone,
-            purchaseType,
-            purchaseFrequency,
-            purchaseDuration,
-            satisfactionLevel: parseInt(satisfactionLevel) || 8,
-            keyHighlights,
-            improvementAreas,
-            recommendationLikelihood: parseInt(recommendationLikelihood) || 9,
-            events: eventStr,
-            shoppingMotivation: motivationStr,
-            priceSensitivity,
-            brandLoyalty,
-            emotionalConnection,
-        });
+        const result = await generateReview(
+            {
+                orgName,
+                orgType,
+                attenderName,
+                shopLocation: locationLabel,
+                orgDescription,
+                customerName,
+                customerPhone,
+                purchaseType,
+                purchaseFrequency,
+                purchaseDuration,
+                satisfactionLevel: parseInt(satisfactionLevel) || 8,
+                keyHighlights,
+                improvementAreas,
+                recommendationLikelihood: parseInt(recommendationLikelihood) || 9,
+                events: eventStr,
+                shoppingMotivation: motivationStr,
+                priceSensitivity,
+                brandLoyalty,
+                emotionalConnection,
+            },
+            {
+                improvementHint: improvementHint || undefined,
+                regenerateType: regenerateType || "both",
+            }
+        );
 
         if (!result.success || !result.review) {
             return NextResponse.json(
@@ -107,6 +115,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
             success: true,
             review: result.review,
+            customerMessage: result.customerMessage,
         });
     } catch (error) {
         console.error("API Error:", error);

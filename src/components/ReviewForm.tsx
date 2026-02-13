@@ -1,10 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog"
 import {
     Form,
     FormControl,
@@ -42,9 +50,12 @@ import {
     Sparkle,
     Bot,
     Check,
-    Calendar
+    Calendar,
+    Save,
+    MessageSquare,
+    Copy,
+    ClipboardCheck
 } from "lucide-react"
-import { shopConfig } from "@/config/shop"
 
 // Kalyaa Jewellers Shop Locations
 const SHOP_LOCATIONS = [
@@ -96,6 +107,7 @@ type Step = 1 | 2 | 3
 
 interface GeneratedReview {
     review: string
+    customerMessage: string
     whatsappLink: string
 }
 
@@ -496,6 +508,14 @@ export function ReviewForm() {
     const [isGenerating, setIsGenerating] = useState(false)
     const [generatedReview, setGeneratedReview] = useState<GeneratedReview | null>(null)
     const [formData, setFormData] = useState<FormData>({})
+    const [isSaving, setIsSaving] = useState(false)
+    const [isSaved, setIsSaved] = useState(false)
+    const [regenerateModalOpen, setRegenerateModalOpen] = useState(false)
+    const [regenerateType, setRegenerateType] = useState<"review" | "customerMessage">("review")
+    const [improvementHint, setImprovementHint] = useState("")
+    const [regeneratingTarget, setRegeneratingTarget] = useState<"review" | "customerMessage" | null>(null)
+    const [copiedReview, setCopiedReview] = useState(false)
+    const [copiedMessage, setCopiedMessage] = useState(false)
 
     const orgForm = useForm<z.infer<typeof orgSchema>>({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -554,12 +574,13 @@ export function ReviewForm() {
 
             const data = await response.json()
             
-            const whatsappText = encodeURIComponent(data.review)
+            const whatsappText = encodeURIComponent(data.customerMessage || data.review)
             const customerPhone = (fullData.customerPhone || '').replace(/\s+/g, '').replace(/^0+/, '')
             const whatsappLink = `https://wa.me/${customerPhone}?text=${whatsappText}`
-            
+
             setGeneratedReview({
                 review: data.review,
+                customerMessage: data.customerMessage || data.review,
                 whatsappLink,
             })
             setCurrentStep(3)
@@ -574,32 +595,76 @@ export function ReviewForm() {
         }
     }
 
-    const regenerateReview = async () => {
+    const openRegenerateModal = useCallback((type: "review" | "customerMessage") => {
+        setRegenerateType(type)
+        setImprovementHint("")
+        setRegenerateModalOpen(true)
+    }, [])
+
+    const handleRegenerate = async () => {
+        setRegenerateModalOpen(false)
+        setRegeneratingTarget(regenerateType)
         setIsGenerating(true)
         try {
             const response = await fetch("/api/generate-review", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...formData, regenerate: true }),
+                body: JSON.stringify({
+                    ...formData,
+                    improvementHint: improvementHint || undefined,
+                    regenerateType,
+                }),
             })
 
             if (!response.ok) {
-                throw new Error("Failed to regenerate review")
+                throw new Error("Failed to regenerate")
             }
 
             const data = await response.json()
-            const whatsappText = encodeURIComponent(data.review)
+            const whatsappText = encodeURIComponent(data.customerMessage || data.review)
             const customerPhone = (formData.customerPhone || '').replace(/\s+/g, '').replace(/^0+/, '')
             const whatsappLink = `https://wa.me/${customerPhone}?text=${whatsappText}`
-            
-            setGeneratedReview({
-                review: data.review,
-                whatsappLink,
+
+            setGeneratedReview((prev) => {
+                if (!prev) return prev
+                return {
+                    review: regenerateType === "review" ? data.review : prev.review,
+                    customerMessage: regenerateType === "customerMessage" ? (data.customerMessage || data.review) : prev.customerMessage,
+                    whatsappLink: regenerateType === "customerMessage" ? whatsappLink : prev.whatsappLink,
+                }
             })
+            setIsSaved(false)
         } catch (error) {
             console.error(error)
         } finally {
             setIsGenerating(false)
+            setRegeneratingTarget(null)
+        }
+    }
+
+    const saveReview = async () => {
+        if (!generatedReview) return
+        setIsSaving(true)
+        try {
+            const response = await fetch("/api/reviews", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...formData,
+                    reviewText: generatedReview.review,
+                    customerMessage: generatedReview.customerMessage,
+                }),
+            })
+
+            if (!response.ok) {
+                throw new Error("Failed to save review")
+            }
+
+            setIsSaved(true)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsSaving(false)
         }
     }
 
@@ -622,19 +687,6 @@ export function ReviewForm() {
         return (
             <div className="form-container" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
                 <StepIndicator currentStep={currentStep} />
-                
-                <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                            <Building2 className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <h2 className="text-base font-bold text-gray-800">Kalyaa Jewellers</h2>
-                            <p className="text-[11px] text-gray-500">Enter shop and attender details</p>
-                        </div>
-                    </div>
-                    <PremiumBadge />
-                </div>
                 
                 <Form {...orgForm}>
                     <form onSubmit={orgForm.handleSubmit(onOrgSubmit)} className="divide-y divide-gray-100">
@@ -1153,7 +1205,47 @@ export function ReviewForm() {
         return (
             <div className="form-container" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' }}>
                 <StepIndicator currentStep={currentStep} />
-                
+
+                {/* Regenerate Modal */}
+                <Dialog open={regenerateModalOpen} onOpenChange={setRegenerateModalOpen}>
+                    <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                            <DialogTitle className="flex items-center gap-2">
+                                <RefreshCw className="w-5 h-5 text-violet-600" />
+                                Regenerate {regenerateType === "review" ? "Review" : "Customer Message"}
+                            </DialogTitle>
+                            <DialogDescription>
+                                What would you like to improve? Describe the changes you want and we'll regenerate accordingly.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="py-3">
+                            <Textarea
+                                placeholder="e.g., Make it more emotional, mention the gold purity, add more specific details about the service..."
+                                value={improvementHint}
+                                onChange={(e) => setImprovementHint(e.target.value)}
+                                className="min-h-[100px] text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 resize-none"
+                            />
+                        </div>
+                        <DialogFooter className="gap-2 sm:gap-0">
+                            <Button
+                                variant="outline"
+                                onClick={() => setRegenerateModalOpen(false)}
+                                className="rounded-xl"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={handleRegenerate}
+                                className="bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white rounded-xl"
+                            >
+                                <RefreshCw className="w-4 h-4 mr-2" />
+                                Regenerate
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+
+                {/* Header with Save Button */}
                 <div className="px-5 py-4 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -1165,76 +1257,193 @@ export function ReviewForm() {
                                 <p className="text-[11px] text-white/80">Review completed</p>
                             </div>
                         </div>
+                        <Button
+                            onClick={saveReview}
+                            disabled={isSaving || isSaved}
+                            size="sm"
+                            className={`cursor-pointer h-9 text-xs font-bold rounded-xl transition-all active:scale-95 ${
+                                isSaved
+                                    ? 'bg-white/20 text-white border border-white/30'
+                                    : 'bg-white text-violet-700 hover:bg-white/90 shadow-lg shadow-black/10'
+                            }`}
+                        >
+                            {isSaving ? (
+                                <>
+                                    <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                                    Saving...
+                                </>
+                            ) : isSaved ? (
+                                <>
+                                    <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                                    Saved
+                                </>
+                            ) : (
+                                <>
+                                    <Save className="w-3.5 h-3.5 mr-1.5" />
+                                    Save Review
+                                </>
+                            )}
+                        </Button>
                     </div>
                 </div>
 
                 <div className="p-5 space-y-5">
-                    <div className="relative bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 rounded-2xl p-5 border border-violet-200 shadow-inner">
-                        <div className="flex items-start gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/30">
-                                <Sparkles className="w-5 h-5 text-white" />
+                    {/* Generated Review */}
+                    <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Generated Review</p>
+                        <div className="relative bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 rounded-2xl p-5 border border-violet-200 shadow-inner overflow-hidden">
+                            {regeneratingTarget === "review" && (
+                                <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] rounded-2xl flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-3">
+                                        <div className="relative">
+                                            <div className="w-12 h-12 rounded-full border-4 border-violet-200 border-t-violet-600 animate-spin" />
+                                            <Sparkles className="w-5 h-5 text-violet-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                                        </div>
+                                        <p className="text-sm font-semibold text-violet-700">Regenerating review...</p>
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-200/30 to-transparent animate-shimmer" />
+                                </div>
+                            )}
+                            <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/30">
+                                    <Sparkles className="w-5 h-5 text-white" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                                        {generatedReview.review}
+                                    </p>
+                                </div>
                             </div>
-                            <div className="flex-1">
-                                <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
-                                    {generatedReview.review}
-                                </p>
-                            </div>
+                        </div>
+                        <div className="flex gap-3 mt-3">
+                            <Button
+                                variant="outline"
+                                onClick={() => openRegenerateModal("review")}
+                                disabled={regeneratingTarget !== null}
+                                className="flex-1 h-11 text-sm font-semibold rounded-xl border-violet-200 text-violet-700 hover:bg-violet-50 hover:border-violet-300 transition-all cursor-pointer"
+                            >
+                                {regeneratingTarget === "review" ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <>
+                                        <RefreshCw className="w-4 h-4 mr-2" />
+                                        Regenerate
+                                    </>
+                                )}
+                            </Button>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(generatedReview.review)
+                                    setCopiedReview(true)
+                                    setTimeout(() => setCopiedReview(false), 2000)
+                                }}
+                                className="flex-1 h-11 text-sm font-semibold rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50 transition-all cursor-pointer"
+                            >
+                                {copiedReview ? (
+                                    <span className="flex items-center gap-2 text-green-600 animate-in zoom-in-50 duration-300">
+                                        <ClipboardCheck className="w-4 h-4" />
+                                        Copied!
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        <Copy className="w-4 h-4" />
+                                        Copy Review
+                                    </span>
+                                )}
+                            </Button>
                         </div>
                     </div>
 
-                    <div className="flex gap-3">
-                        <Button
-                            variant="outline"
-                            onClick={regenerateReview}
-                            disabled={isGenerating}
-                            className="flex-1 h-11 text-sm font-semibold rounded-xl border-violet-200 text-violet-700 hover:bg-violet-50 hover:border-violet-300 transition-all"
-                        >
-                            {isGenerating ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                                <>
-                                    <RefreshCw className="w-4 h-4 mr-2" />
-                                    Regenerate
-                                </>
+                    {/* Customer Thank-You Message */}
+                    <div>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">WhatsApp Message to Customer</p>
+                        <div className="relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 pb-16 border border-green-200 shadow-inner overflow-hidden">
+                            {regeneratingTarget === "customerMessage" && (
+                                <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] rounded-2xl flex items-center justify-center">
+                                    <div className="flex flex-col items-center gap-3">
+                                        <div className="relative">
+                                            <div className="w-12 h-12 rounded-full border-4 border-green-200 border-t-green-600 animate-spin" />
+                                            <MessageSquare className="w-5 h-5 text-green-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                                        </div>
+                                        <p className="text-sm font-semibold text-green-700">Regenerating message...</p>
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-200/30 to-transparent animate-shimmer" />
+                                </div>
                             )}
-                        </Button>
-                        
-                        <Button
-                            variant="outline"
-                            onClick={() => navigator.clipboard.writeText(generatedReview.review)}
-                            className="flex-1 h-11 text-sm font-semibold rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50 transition-all"
-                        >
-                            Copy Text
-                        </Button>
-                    </div>
-
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 border border-green-200">
-                        <a
-                            href={generatedReview.whatsappLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full"
-                        >
+                            <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-green-500/30">
+                                    <Share2 className="w-5 h-5 text-white" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                                        {generatedReview.customerMessage}
+                                    </p>
+                                </div>
+                            </div>
+                            {/* Share WhatsApp button inside message area */}
+                            <div className="absolute bottom-3 right-3 z-[5]">
+                                <a
+                                    href={generatedReview.whatsappLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button
+                                        size="sm"
+                                        className="h-9 text-xs font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg shadow-green-500/25 transition-all active:scale-95 cursor-pointer"
+                                    >
+                                        <Share2 className="w-3.5 h-3.5 mr-1.5" />
+                                        Send on WhatsApp
+                                        <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                                    </Button>
+                                </a>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 mt-3">
                             <Button
-                                className="w-full h-13 text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg shadow-green-500/30 transition-all active:scale-[0.98] group"
+                                variant="outline"
+                                onClick={() => openRegenerateModal("customerMessage")}
+                                disabled={regeneratingTarget !== null}
+                                className="flex-1 h-11 text-sm font-semibold rounded-xl border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 transition-all cursor-pointer"
                             >
-                                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center mr-3">
-                                    <Share2 className="w-4 h-4" />
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-sm font-bold">Share on WhatsApp</div>
-                                    <div className="text-[10px] font-medium text-white/80">Open chat with customer</div>
-                                </div>
-                                <ArrowRight className="ml-auto w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                {regeneratingTarget === "customerMessage" ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <>
+                                        <RefreshCw className="w-4 h-4 mr-2" />
+                                        Regenerate Message
+                                    </>
+                                )}
                             </Button>
-                        </a>
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(generatedReview.customerMessage)
+                                    setCopiedMessage(true)
+                                    setTimeout(() => setCopiedMessage(false), 2000)
+                                }}
+                                className="flex-1 h-11 text-sm font-semibold rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50 transition-all cursor-pointer"
+                            >
+                                {copiedMessage ? (
+                                    <span className="flex items-center gap-2 text-green-600 animate-in zoom-in-50 duration-300">
+                                        <ClipboardCheck className="w-4 h-4" />
+                                        Copied!
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        <Copy className="w-4 h-4" />
+                                        Copy Message
+                                    </span>
+                                )}
+                            </Button>
+                        </div>
                     </div>
 
                     <Button
                         variant="ghost"
                         size="sm"
                         onClick={resetForm}
-                        className="w-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
+                        className="w-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all cursor-pointer"
                     >
                         <RefreshCw className="w-4 h-4 mr-2" />
                         Start New Review

@@ -27,57 +27,92 @@ export type AggregateCustomerReview = {
 }
 
 export type CustomerReviewAvgAggregateOutputType = {
-  rating: number | null
+  satisfactionLevel: number | null
+  recommendationLikelihood: number | null
 }
 
 export type CustomerReviewSumAggregateOutputType = {
-  rating: number | null
+  satisfactionLevel: number | null
+  recommendationLikelihood: number | null
 }
 
 export type CustomerReviewMinAggregateOutputType = {
   id: string | null
-  shopName: string | null
-  shopEmail: string | null
+  orgName: string | null
+  orgType: string | null
+  attenderName: string | null
+  shopLocation: string | null
+  orgDescription: string | null
   customerName: string | null
-  customerEmail: string | null
-  phoneNumber: string | null
-  productName: string | null
-  rating: number | null
+  customerPhone: string | null
+  purchaseType: string | null
+  purchaseFrequency: string | null
+  purchaseDuration: string | null
+  satisfactionLevel: number | null
+  keyHighlights: string | null
+  improvementAreas: string | null
+  recommendationLikelihood: number | null
+  events: string | null
+  shoppingMotivation: string | null
+  priceSensitivity: string | null
+  brandLoyalty: string | null
+  emotionalConnection: string | null
   reviewText: string | null
-  sendSMS: boolean | null
-  sendWhatsApp: boolean | null
+  customerMessage: string | null
   createdAt: Date | null
   status: $Enums.ReviewStatus | null
 }
 
 export type CustomerReviewMaxAggregateOutputType = {
   id: string | null
-  shopName: string | null
-  shopEmail: string | null
+  orgName: string | null
+  orgType: string | null
+  attenderName: string | null
+  shopLocation: string | null
+  orgDescription: string | null
   customerName: string | null
-  customerEmail: string | null
-  phoneNumber: string | null
-  productName: string | null
-  rating: number | null
+  customerPhone: string | null
+  purchaseType: string | null
+  purchaseFrequency: string | null
+  purchaseDuration: string | null
+  satisfactionLevel: number | null
+  keyHighlights: string | null
+  improvementAreas: string | null
+  recommendationLikelihood: number | null
+  events: string | null
+  shoppingMotivation: string | null
+  priceSensitivity: string | null
+  brandLoyalty: string | null
+  emotionalConnection: string | null
   reviewText: string | null
-  sendSMS: boolean | null
-  sendWhatsApp: boolean | null
+  customerMessage: string | null
   createdAt: Date | null
   status: $Enums.ReviewStatus | null
 }
 
 export type CustomerReviewCountAggregateOutputType = {
   id: number
-  shopName: number
-  shopEmail: number
+  orgName: number
+  orgType: number
+  attenderName: number
+  shopLocation: number
+  orgDescription: number
   customerName: number
-  customerEmail: number
-  phoneNumber: number
-  productName: number
-  rating: number
+  customerPhone: number
+  purchaseType: number
+  purchaseFrequency: number
+  purchaseDuration: number
+  satisfactionLevel: number
+  keyHighlights: number
+  improvementAreas: number
+  recommendationLikelihood: number
+  events: number
+  shoppingMotivation: number
+  priceSensitivity: number
+  brandLoyalty: number
+  emotionalConnection: number
   reviewText: number
-  sendSMS: number
-  sendWhatsApp: number
+  customerMessage: number
   createdAt: number
   status: number
   _all: number
@@ -85,57 +120,92 @@ export type CustomerReviewCountAggregateOutputType = {
 
 
 export type CustomerReviewAvgAggregateInputType = {
-  rating?: true
+  satisfactionLevel?: true
+  recommendationLikelihood?: true
 }
 
 export type CustomerReviewSumAggregateInputType = {
-  rating?: true
+  satisfactionLevel?: true
+  recommendationLikelihood?: true
 }
 
 export type CustomerReviewMinAggregateInputType = {
   id?: true
-  shopName?: true
-  shopEmail?: true
+  orgName?: true
+  orgType?: true
+  attenderName?: true
+  shopLocation?: true
+  orgDescription?: true
   customerName?: true
-  customerEmail?: true
-  phoneNumber?: true
-  productName?: true
-  rating?: true
+  customerPhone?: true
+  purchaseType?: true
+  purchaseFrequency?: true
+  purchaseDuration?: true
+  satisfactionLevel?: true
+  keyHighlights?: true
+  improvementAreas?: true
+  recommendationLikelihood?: true
+  events?: true
+  shoppingMotivation?: true
+  priceSensitivity?: true
+  brandLoyalty?: true
+  emotionalConnection?: true
   reviewText?: true
-  sendSMS?: true
-  sendWhatsApp?: true
+  customerMessage?: true
   createdAt?: true
   status?: true
 }
 
 export type CustomerReviewMaxAggregateInputType = {
   id?: true
-  shopName?: true
-  shopEmail?: true
+  orgName?: true
+  orgType?: true
+  attenderName?: true
+  shopLocation?: true
+  orgDescription?: true
   customerName?: true
-  customerEmail?: true
-  phoneNumber?: true
-  productName?: true
-  rating?: true
+  customerPhone?: true
+  purchaseType?: true
+  purchaseFrequency?: true
+  purchaseDuration?: true
+  satisfactionLevel?: true
+  keyHighlights?: true
+  improvementAreas?: true
+  recommendationLikelihood?: true
+  events?: true
+  shoppingMotivation?: true
+  priceSensitivity?: true
+  brandLoyalty?: true
+  emotionalConnection?: true
   reviewText?: true
-  sendSMS?: true
-  sendWhatsApp?: true
+  customerMessage?: true
   createdAt?: true
   status?: true
 }
 
 export type CustomerReviewCountAggregateInputType = {
   id?: true
-  shopName?: true
-  shopEmail?: true
+  orgName?: true
+  orgType?: true
+  attenderName?: true
+  shopLocation?: true
+  orgDescription?: true
   customerName?: true
-  customerEmail?: true
-  phoneNumber?: true
-  productName?: true
-  rating?: true
+  customerPhone?: true
+  purchaseType?: true
+  purchaseFrequency?: true
+  purchaseDuration?: true
+  satisfactionLevel?: true
+  keyHighlights?: true
+  improvementAreas?: true
+  recommendationLikelihood?: true
+  events?: true
+  shoppingMotivation?: true
+  priceSensitivity?: true
+  brandLoyalty?: true
+  emotionalConnection?: true
   reviewText?: true
-  sendSMS?: true
-  sendWhatsApp?: true
+  customerMessage?: true
   createdAt?: true
   status?: true
   _all?: true
@@ -229,16 +299,27 @@ export type CustomerReviewGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type CustomerReviewGroupByOutputType = {
   id: string
-  shopName: string
-  shopEmail: string
+  orgName: string
+  orgType: string
+  attenderName: string | null
+  shopLocation: string | null
+  orgDescription: string | null
   customerName: string
-  customerEmail: string
-  phoneNumber: string
-  productName: string
-  rating: number
+  customerPhone: string | null
+  purchaseType: string
+  purchaseFrequency: string
+  purchaseDuration: string | null
+  satisfactionLevel: number
+  keyHighlights: string | null
+  improvementAreas: string | null
+  recommendationLikelihood: number
+  events: string | null
+  shoppingMotivation: string | null
+  priceSensitivity: string | null
+  brandLoyalty: string | null
+  emotionalConnection: string | null
   reviewText: string
-  sendSMS: boolean
-  sendWhatsApp: boolean
+  customerMessage: string | null
   createdAt: Date
   status: $Enums.ReviewStatus
   _count: CustomerReviewCountAggregateOutputType | null
@@ -268,32 +349,54 @@ export type CustomerReviewWhereInput = {
   OR?: Prisma.CustomerReviewWhereInput[]
   NOT?: Prisma.CustomerReviewWhereInput | Prisma.CustomerReviewWhereInput[]
   id?: Prisma.StringFilter<"CustomerReview"> | string
-  shopName?: Prisma.StringFilter<"CustomerReview"> | string
-  shopEmail?: Prisma.StringFilter<"CustomerReview"> | string
+  orgName?: Prisma.StringFilter<"CustomerReview"> | string
+  orgType?: Prisma.StringFilter<"CustomerReview"> | string
+  attenderName?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  shopLocation?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  orgDescription?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
   customerName?: Prisma.StringFilter<"CustomerReview"> | string
-  customerEmail?: Prisma.StringFilter<"CustomerReview"> | string
-  phoneNumber?: Prisma.StringFilter<"CustomerReview"> | string
-  productName?: Prisma.StringFilter<"CustomerReview"> | string
-  rating?: Prisma.IntFilter<"CustomerReview"> | number
+  customerPhone?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  purchaseType?: Prisma.StringFilter<"CustomerReview"> | string
+  purchaseFrequency?: Prisma.StringFilter<"CustomerReview"> | string
+  purchaseDuration?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  satisfactionLevel?: Prisma.IntFilter<"CustomerReview"> | number
+  keyHighlights?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  improvementAreas?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  recommendationLikelihood?: Prisma.IntFilter<"CustomerReview"> | number
+  events?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  shoppingMotivation?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  priceSensitivity?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  brandLoyalty?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  emotionalConnection?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
   reviewText?: Prisma.StringFilter<"CustomerReview"> | string
-  sendSMS?: Prisma.BoolFilter<"CustomerReview"> | boolean
-  sendWhatsApp?: Prisma.BoolFilter<"CustomerReview"> | boolean
+  customerMessage?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CustomerReview"> | Date | string
   status?: Prisma.EnumReviewStatusFilter<"CustomerReview"> | $Enums.ReviewStatus
 }
 
 export type CustomerReviewOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  shopName?: Prisma.SortOrder
-  shopEmail?: Prisma.SortOrder
+  orgName?: Prisma.SortOrder
+  orgType?: Prisma.SortOrder
+  attenderName?: Prisma.SortOrderInput | Prisma.SortOrder
+  shopLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  orgDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   customerName?: Prisma.SortOrder
-  customerEmail?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  productName?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseType?: Prisma.SortOrder
+  purchaseFrequency?: Prisma.SortOrder
+  purchaseDuration?: Prisma.SortOrderInput | Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  keyHighlights?: Prisma.SortOrderInput | Prisma.SortOrder
+  improvementAreas?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
+  events?: Prisma.SortOrderInput | Prisma.SortOrder
+  shoppingMotivation?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceSensitivity?: Prisma.SortOrderInput | Prisma.SortOrder
+  brandLoyalty?: Prisma.SortOrderInput | Prisma.SortOrder
+  emotionalConnection?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  sendSMS?: Prisma.SortOrder
-  sendWhatsApp?: Prisma.SortOrder
+  customerMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
@@ -303,32 +406,54 @@ export type CustomerReviewWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CustomerReviewWhereInput | Prisma.CustomerReviewWhereInput[]
   OR?: Prisma.CustomerReviewWhereInput[]
   NOT?: Prisma.CustomerReviewWhereInput | Prisma.CustomerReviewWhereInput[]
-  shopName?: Prisma.StringFilter<"CustomerReview"> | string
-  shopEmail?: Prisma.StringFilter<"CustomerReview"> | string
+  orgName?: Prisma.StringFilter<"CustomerReview"> | string
+  orgType?: Prisma.StringFilter<"CustomerReview"> | string
+  attenderName?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  shopLocation?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  orgDescription?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
   customerName?: Prisma.StringFilter<"CustomerReview"> | string
-  customerEmail?: Prisma.StringFilter<"CustomerReview"> | string
-  phoneNumber?: Prisma.StringFilter<"CustomerReview"> | string
-  productName?: Prisma.StringFilter<"CustomerReview"> | string
-  rating?: Prisma.IntFilter<"CustomerReview"> | number
+  customerPhone?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  purchaseType?: Prisma.StringFilter<"CustomerReview"> | string
+  purchaseFrequency?: Prisma.StringFilter<"CustomerReview"> | string
+  purchaseDuration?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  satisfactionLevel?: Prisma.IntFilter<"CustomerReview"> | number
+  keyHighlights?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  improvementAreas?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  recommendationLikelihood?: Prisma.IntFilter<"CustomerReview"> | number
+  events?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  shoppingMotivation?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  priceSensitivity?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  brandLoyalty?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
+  emotionalConnection?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
   reviewText?: Prisma.StringFilter<"CustomerReview"> | string
-  sendSMS?: Prisma.BoolFilter<"CustomerReview"> | boolean
-  sendWhatsApp?: Prisma.BoolFilter<"CustomerReview"> | boolean
+  customerMessage?: Prisma.StringNullableFilter<"CustomerReview"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CustomerReview"> | Date | string
   status?: Prisma.EnumReviewStatusFilter<"CustomerReview"> | $Enums.ReviewStatus
 }, "id">
 
 export type CustomerReviewOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  shopName?: Prisma.SortOrder
-  shopEmail?: Prisma.SortOrder
+  orgName?: Prisma.SortOrder
+  orgType?: Prisma.SortOrder
+  attenderName?: Prisma.SortOrderInput | Prisma.SortOrder
+  shopLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  orgDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   customerName?: Prisma.SortOrder
-  customerEmail?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  productName?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  purchaseType?: Prisma.SortOrder
+  purchaseFrequency?: Prisma.SortOrder
+  purchaseDuration?: Prisma.SortOrderInput | Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  keyHighlights?: Prisma.SortOrderInput | Prisma.SortOrder
+  improvementAreas?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
+  events?: Prisma.SortOrderInput | Prisma.SortOrder
+  shoppingMotivation?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceSensitivity?: Prisma.SortOrderInput | Prisma.SortOrder
+  brandLoyalty?: Prisma.SortOrderInput | Prisma.SortOrder
+  emotionalConnection?: Prisma.SortOrderInput | Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  sendSMS?: Prisma.SortOrder
-  sendWhatsApp?: Prisma.SortOrder
+  customerMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
   _count?: Prisma.CustomerReviewCountOrderByAggregateInput
@@ -343,190 +468,317 @@ export type CustomerReviewScalarWhereWithAggregatesInput = {
   OR?: Prisma.CustomerReviewScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CustomerReviewScalarWhereWithAggregatesInput | Prisma.CustomerReviewScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  shopName?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  shopEmail?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
+  orgName?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
+  orgType?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
+  attenderName?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  shopLocation?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  orgDescription?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
   customerName?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  customerEmail?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  phoneNumber?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  productName?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  rating?: Prisma.IntWithAggregatesFilter<"CustomerReview"> | number
+  customerPhone?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  purchaseType?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
+  purchaseFrequency?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
+  purchaseDuration?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  satisfactionLevel?: Prisma.IntWithAggregatesFilter<"CustomerReview"> | number
+  keyHighlights?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  improvementAreas?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  recommendationLikelihood?: Prisma.IntWithAggregatesFilter<"CustomerReview"> | number
+  events?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  shoppingMotivation?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  priceSensitivity?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  brandLoyalty?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
+  emotionalConnection?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
   reviewText?: Prisma.StringWithAggregatesFilter<"CustomerReview"> | string
-  sendSMS?: Prisma.BoolWithAggregatesFilter<"CustomerReview"> | boolean
-  sendWhatsApp?: Prisma.BoolWithAggregatesFilter<"CustomerReview"> | boolean
+  customerMessage?: Prisma.StringNullableWithAggregatesFilter<"CustomerReview"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CustomerReview"> | Date | string
   status?: Prisma.EnumReviewStatusWithAggregatesFilter<"CustomerReview"> | $Enums.ReviewStatus
 }
 
 export type CustomerReviewCreateInput = {
   id?: string
-  shopName: string
-  shopEmail: string
+  orgName?: string
+  orgType?: string
+  attenderName?: string | null
+  shopLocation?: string | null
+  orgDescription?: string | null
   customerName: string
-  customerEmail: string
-  phoneNumber: string
-  productName: string
-  rating: number
+  customerPhone?: string | null
+  purchaseType?: string
+  purchaseFrequency?: string
+  purchaseDuration?: string | null
+  satisfactionLevel?: number
+  keyHighlights?: string | null
+  improvementAreas?: string | null
+  recommendationLikelihood?: number
+  events?: string | null
+  shoppingMotivation?: string | null
+  priceSensitivity?: string | null
+  brandLoyalty?: string | null
+  emotionalConnection?: string | null
   reviewText: string
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: string | null
   createdAt?: Date | string
   status?: $Enums.ReviewStatus
 }
 
 export type CustomerReviewUncheckedCreateInput = {
   id?: string
-  shopName: string
-  shopEmail: string
+  orgName?: string
+  orgType?: string
+  attenderName?: string | null
+  shopLocation?: string | null
+  orgDescription?: string | null
   customerName: string
-  customerEmail: string
-  phoneNumber: string
-  productName: string
-  rating: number
+  customerPhone?: string | null
+  purchaseType?: string
+  purchaseFrequency?: string
+  purchaseDuration?: string | null
+  satisfactionLevel?: number
+  keyHighlights?: string | null
+  improvementAreas?: string | null
+  recommendationLikelihood?: number
+  events?: string | null
+  shoppingMotivation?: string | null
+  priceSensitivity?: string | null
+  brandLoyalty?: string | null
+  emotionalConnection?: string | null
   reviewText: string
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: string | null
   createdAt?: Date | string
   status?: $Enums.ReviewStatus
 }
 
 export type CustomerReviewUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopEmail?: Prisma.StringFieldUpdateOperationsInput | string
+  orgName?: Prisma.StringFieldUpdateOperationsInput | string
+  orgType?: Prisma.StringFieldUpdateOperationsInput | string
+  attenderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shopLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orgDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
-  customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  productName?: Prisma.StringFieldUpdateOperationsInput | string
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseType?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseFrequency?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  satisfactionLevel?: Prisma.IntFieldUpdateOperationsInput | number
+  keyHighlights?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  improvementAreas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationLikelihood?: Prisma.IntFieldUpdateOperationsInput | number
+  events?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shoppingMotivation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceSensitivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandLoyalty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalConnection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
-  sendSMS?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sendWhatsApp?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
 }
 
 export type CustomerReviewUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopEmail?: Prisma.StringFieldUpdateOperationsInput | string
+  orgName?: Prisma.StringFieldUpdateOperationsInput | string
+  orgType?: Prisma.StringFieldUpdateOperationsInput | string
+  attenderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shopLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orgDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
-  customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  productName?: Prisma.StringFieldUpdateOperationsInput | string
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseType?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseFrequency?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  satisfactionLevel?: Prisma.IntFieldUpdateOperationsInput | number
+  keyHighlights?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  improvementAreas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationLikelihood?: Prisma.IntFieldUpdateOperationsInput | number
+  events?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shoppingMotivation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceSensitivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandLoyalty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalConnection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
-  sendSMS?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sendWhatsApp?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
 }
 
 export type CustomerReviewCreateManyInput = {
   id?: string
-  shopName: string
-  shopEmail: string
+  orgName?: string
+  orgType?: string
+  attenderName?: string | null
+  shopLocation?: string | null
+  orgDescription?: string | null
   customerName: string
-  customerEmail: string
-  phoneNumber: string
-  productName: string
-  rating: number
+  customerPhone?: string | null
+  purchaseType?: string
+  purchaseFrequency?: string
+  purchaseDuration?: string | null
+  satisfactionLevel?: number
+  keyHighlights?: string | null
+  improvementAreas?: string | null
+  recommendationLikelihood?: number
+  events?: string | null
+  shoppingMotivation?: string | null
+  priceSensitivity?: string | null
+  brandLoyalty?: string | null
+  emotionalConnection?: string | null
   reviewText: string
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: string | null
   createdAt?: Date | string
   status?: $Enums.ReviewStatus
 }
 
 export type CustomerReviewUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopEmail?: Prisma.StringFieldUpdateOperationsInput | string
+  orgName?: Prisma.StringFieldUpdateOperationsInput | string
+  orgType?: Prisma.StringFieldUpdateOperationsInput | string
+  attenderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shopLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orgDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
-  customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  productName?: Prisma.StringFieldUpdateOperationsInput | string
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseType?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseFrequency?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  satisfactionLevel?: Prisma.IntFieldUpdateOperationsInput | number
+  keyHighlights?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  improvementAreas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationLikelihood?: Prisma.IntFieldUpdateOperationsInput | number
+  events?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shoppingMotivation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceSensitivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandLoyalty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalConnection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
-  sendSMS?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sendWhatsApp?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
 }
 
 export type CustomerReviewUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  shopName?: Prisma.StringFieldUpdateOperationsInput | string
-  shopEmail?: Prisma.StringFieldUpdateOperationsInput | string
+  orgName?: Prisma.StringFieldUpdateOperationsInput | string
+  orgType?: Prisma.StringFieldUpdateOperationsInput | string
+  attenderName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shopLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  orgDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerName?: Prisma.StringFieldUpdateOperationsInput | string
-  customerEmail?: Prisma.StringFieldUpdateOperationsInput | string
-  phoneNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  productName?: Prisma.StringFieldUpdateOperationsInput | string
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  customerPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  purchaseType?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseFrequency?: Prisma.StringFieldUpdateOperationsInput | string
+  purchaseDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  satisfactionLevel?: Prisma.IntFieldUpdateOperationsInput | number
+  keyHighlights?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  improvementAreas?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendationLikelihood?: Prisma.IntFieldUpdateOperationsInput | number
+  events?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shoppingMotivation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceSensitivity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandLoyalty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emotionalConnection?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviewText?: Prisma.StringFieldUpdateOperationsInput | string
-  sendSMS?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sendWhatsApp?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumReviewStatusFieldUpdateOperationsInput | $Enums.ReviewStatus
 }
 
 export type CustomerReviewCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  shopName?: Prisma.SortOrder
-  shopEmail?: Prisma.SortOrder
+  orgName?: Prisma.SortOrder
+  orgType?: Prisma.SortOrder
+  attenderName?: Prisma.SortOrder
+  shopLocation?: Prisma.SortOrder
+  orgDescription?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
-  customerEmail?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  productName?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrder
+  purchaseType?: Prisma.SortOrder
+  purchaseFrequency?: Prisma.SortOrder
+  purchaseDuration?: Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  keyHighlights?: Prisma.SortOrder
+  improvementAreas?: Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
+  events?: Prisma.SortOrder
+  shoppingMotivation?: Prisma.SortOrder
+  priceSensitivity?: Prisma.SortOrder
+  brandLoyalty?: Prisma.SortOrder
+  emotionalConnection?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  sendSMS?: Prisma.SortOrder
-  sendWhatsApp?: Prisma.SortOrder
+  customerMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type CustomerReviewAvgOrderByAggregateInput = {
-  rating?: Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
 }
 
 export type CustomerReviewMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  shopName?: Prisma.SortOrder
-  shopEmail?: Prisma.SortOrder
+  orgName?: Prisma.SortOrder
+  orgType?: Prisma.SortOrder
+  attenderName?: Prisma.SortOrder
+  shopLocation?: Prisma.SortOrder
+  orgDescription?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
-  customerEmail?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  productName?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrder
+  purchaseType?: Prisma.SortOrder
+  purchaseFrequency?: Prisma.SortOrder
+  purchaseDuration?: Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  keyHighlights?: Prisma.SortOrder
+  improvementAreas?: Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
+  events?: Prisma.SortOrder
+  shoppingMotivation?: Prisma.SortOrder
+  priceSensitivity?: Prisma.SortOrder
+  brandLoyalty?: Prisma.SortOrder
+  emotionalConnection?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  sendSMS?: Prisma.SortOrder
-  sendWhatsApp?: Prisma.SortOrder
+  customerMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type CustomerReviewMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  shopName?: Prisma.SortOrder
-  shopEmail?: Prisma.SortOrder
+  orgName?: Prisma.SortOrder
+  orgType?: Prisma.SortOrder
+  attenderName?: Prisma.SortOrder
+  shopLocation?: Prisma.SortOrder
+  orgDescription?: Prisma.SortOrder
   customerName?: Prisma.SortOrder
-  customerEmail?: Prisma.SortOrder
-  phoneNumber?: Prisma.SortOrder
-  productName?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  customerPhone?: Prisma.SortOrder
+  purchaseType?: Prisma.SortOrder
+  purchaseFrequency?: Prisma.SortOrder
+  purchaseDuration?: Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  keyHighlights?: Prisma.SortOrder
+  improvementAreas?: Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
+  events?: Prisma.SortOrder
+  shoppingMotivation?: Prisma.SortOrder
+  priceSensitivity?: Prisma.SortOrder
+  brandLoyalty?: Prisma.SortOrder
+  emotionalConnection?: Prisma.SortOrder
   reviewText?: Prisma.SortOrder
-  sendSMS?: Prisma.SortOrder
-  sendWhatsApp?: Prisma.SortOrder
+  customerMessage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type CustomerReviewSumOrderByAggregateInput = {
-  rating?: Prisma.SortOrder
+  satisfactionLevel?: Prisma.SortOrder
+  recommendationLikelihood?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -535,10 +787,6 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -553,85 +801,140 @@ export type EnumReviewStatusFieldUpdateOperationsInput = {
 
 export type CustomerReviewSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  shopName?: boolean
-  shopEmail?: boolean
+  orgName?: boolean
+  orgType?: boolean
+  attenderName?: boolean
+  shopLocation?: boolean
+  orgDescription?: boolean
   customerName?: boolean
-  customerEmail?: boolean
-  phoneNumber?: boolean
-  productName?: boolean
-  rating?: boolean
+  customerPhone?: boolean
+  purchaseType?: boolean
+  purchaseFrequency?: boolean
+  purchaseDuration?: boolean
+  satisfactionLevel?: boolean
+  keyHighlights?: boolean
+  improvementAreas?: boolean
+  recommendationLikelihood?: boolean
+  events?: boolean
+  shoppingMotivation?: boolean
+  priceSensitivity?: boolean
+  brandLoyalty?: boolean
+  emotionalConnection?: boolean
   reviewText?: boolean
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: boolean
   createdAt?: boolean
   status?: boolean
 }, ExtArgs["result"]["customerReview"]>
 
 export type CustomerReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  shopName?: boolean
-  shopEmail?: boolean
+  orgName?: boolean
+  orgType?: boolean
+  attenderName?: boolean
+  shopLocation?: boolean
+  orgDescription?: boolean
   customerName?: boolean
-  customerEmail?: boolean
-  phoneNumber?: boolean
-  productName?: boolean
-  rating?: boolean
+  customerPhone?: boolean
+  purchaseType?: boolean
+  purchaseFrequency?: boolean
+  purchaseDuration?: boolean
+  satisfactionLevel?: boolean
+  keyHighlights?: boolean
+  improvementAreas?: boolean
+  recommendationLikelihood?: boolean
+  events?: boolean
+  shoppingMotivation?: boolean
+  priceSensitivity?: boolean
+  brandLoyalty?: boolean
+  emotionalConnection?: boolean
   reviewText?: boolean
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: boolean
   createdAt?: boolean
   status?: boolean
 }, ExtArgs["result"]["customerReview"]>
 
 export type CustomerReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  shopName?: boolean
-  shopEmail?: boolean
+  orgName?: boolean
+  orgType?: boolean
+  attenderName?: boolean
+  shopLocation?: boolean
+  orgDescription?: boolean
   customerName?: boolean
-  customerEmail?: boolean
-  phoneNumber?: boolean
-  productName?: boolean
-  rating?: boolean
+  customerPhone?: boolean
+  purchaseType?: boolean
+  purchaseFrequency?: boolean
+  purchaseDuration?: boolean
+  satisfactionLevel?: boolean
+  keyHighlights?: boolean
+  improvementAreas?: boolean
+  recommendationLikelihood?: boolean
+  events?: boolean
+  shoppingMotivation?: boolean
+  priceSensitivity?: boolean
+  brandLoyalty?: boolean
+  emotionalConnection?: boolean
   reviewText?: boolean
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: boolean
   createdAt?: boolean
   status?: boolean
 }, ExtArgs["result"]["customerReview"]>
 
 export type CustomerReviewSelectScalar = {
   id?: boolean
-  shopName?: boolean
-  shopEmail?: boolean
+  orgName?: boolean
+  orgType?: boolean
+  attenderName?: boolean
+  shopLocation?: boolean
+  orgDescription?: boolean
   customerName?: boolean
-  customerEmail?: boolean
-  phoneNumber?: boolean
-  productName?: boolean
-  rating?: boolean
+  customerPhone?: boolean
+  purchaseType?: boolean
+  purchaseFrequency?: boolean
+  purchaseDuration?: boolean
+  satisfactionLevel?: boolean
+  keyHighlights?: boolean
+  improvementAreas?: boolean
+  recommendationLikelihood?: boolean
+  events?: boolean
+  shoppingMotivation?: boolean
+  priceSensitivity?: boolean
+  brandLoyalty?: boolean
+  emotionalConnection?: boolean
   reviewText?: boolean
-  sendSMS?: boolean
-  sendWhatsApp?: boolean
+  customerMessage?: boolean
   createdAt?: boolean
   status?: boolean
 }
 
-export type CustomerReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shopName" | "shopEmail" | "customerName" | "customerEmail" | "phoneNumber" | "productName" | "rating" | "reviewText" | "sendSMS" | "sendWhatsApp" | "createdAt" | "status", ExtArgs["result"]["customerReview"]>
+export type CustomerReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orgName" | "orgType" | "attenderName" | "shopLocation" | "orgDescription" | "customerName" | "customerPhone" | "purchaseType" | "purchaseFrequency" | "purchaseDuration" | "satisfactionLevel" | "keyHighlights" | "improvementAreas" | "recommendationLikelihood" | "events" | "shoppingMotivation" | "priceSensitivity" | "brandLoyalty" | "emotionalConnection" | "reviewText" | "customerMessage" | "createdAt" | "status", ExtArgs["result"]["customerReview"]>
 
 export type $CustomerReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CustomerReview"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    shopName: string
-    shopEmail: string
+    orgName: string
+    orgType: string
+    attenderName: string | null
+    shopLocation: string | null
+    orgDescription: string | null
     customerName: string
-    customerEmail: string
-    phoneNumber: string
-    productName: string
-    rating: number
+    customerPhone: string | null
+    purchaseType: string
+    purchaseFrequency: string
+    purchaseDuration: string | null
+    satisfactionLevel: number
+    keyHighlights: string | null
+    improvementAreas: string | null
+    recommendationLikelihood: number
+    events: string | null
+    shoppingMotivation: string | null
+    priceSensitivity: string | null
+    brandLoyalty: string | null
+    emotionalConnection: string | null
     reviewText: string
-    sendSMS: boolean
-    sendWhatsApp: boolean
+    customerMessage: string | null
     createdAt: Date
     status: $Enums.ReviewStatus
   }, ExtArgs["result"]["customerReview"]>
@@ -1058,16 +1361,27 @@ export interface Prisma__CustomerReviewClient<T, Null = never, ExtArgs extends r
  */
 export interface CustomerReviewFieldRefs {
   readonly id: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly shopName: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly shopEmail: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly orgName: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly orgType: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly attenderName: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly shopLocation: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly orgDescription: Prisma.FieldRef<"CustomerReview", 'String'>
   readonly customerName: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly customerEmail: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly phoneNumber: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly productName: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly rating: Prisma.FieldRef<"CustomerReview", 'Int'>
+  readonly customerPhone: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly purchaseType: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly purchaseFrequency: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly purchaseDuration: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly satisfactionLevel: Prisma.FieldRef<"CustomerReview", 'Int'>
+  readonly keyHighlights: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly improvementAreas: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly recommendationLikelihood: Prisma.FieldRef<"CustomerReview", 'Int'>
+  readonly events: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly shoppingMotivation: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly priceSensitivity: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly brandLoyalty: Prisma.FieldRef<"CustomerReview", 'String'>
+  readonly emotionalConnection: Prisma.FieldRef<"CustomerReview", 'String'>
   readonly reviewText: Prisma.FieldRef<"CustomerReview", 'String'>
-  readonly sendSMS: Prisma.FieldRef<"CustomerReview", 'Boolean'>
-  readonly sendWhatsApp: Prisma.FieldRef<"CustomerReview", 'Boolean'>
+  readonly customerMessage: Prisma.FieldRef<"CustomerReview", 'String'>
   readonly createdAt: Prisma.FieldRef<"CustomerReview", 'DateTime'>
   readonly status: Prisma.FieldRef<"CustomerReview", 'ReviewStatus'>
 }
