@@ -15,35 +15,51 @@ export default function ReviewRedirectClient({
 }) {
     const [copied, setCopied] = useState(false);
     const [redirecting, setRedirecting] = useState(false);
+    const [requiresManualCopy, setRequiresManualCopy] = useState(false);
 
     const encodedPlaceId = encodeURIComponent(placeId);
     const googleWriteReviewUrl = `https://search.google.com/local/writereview?placeid=${encodedPlaceId}`;
 
-    useEffect(() => {
-        async function copyAndRedirect() {
-            try {
-                await navigator.clipboard.writeText(reviewText);
-                setCopied(true);
-            } catch {
-                // Fallback: select hidden textarea
-                const textarea = document.getElementById("review-text") as HTMLTextAreaElement;
-                if (textarea) {
-                    textarea.select();
-                    textarea.setSelectionRange(0, 99999);
-                    document.execCommand("copy");
-                    setCopied(true);
-                }
+    async function copyReviewToClipboard() {
+        try {
+            await navigator.clipboard.writeText(reviewText);
+            setCopied(true);
+            return true;
+        } catch {
+            // Fallback: select hidden textarea
+            const textarea = document.getElementById("review-text") as HTMLTextAreaElement | null;
+            if (textarea) {
+                textarea.select();
+                textarea.setSelectionRange(0, 99999);
+                const didCopy = document.execCommand("copy");
+                setCopied(didCopy);
+                return didCopy;
             }
+            return false;
+        }
+    }
 
-            // Redirect after a short delay
-            setRedirecting(true);
-            setTimeout(() => {
-                // Review-box-only mode: always open Google review composer.
-                window.location.href = googleWriteReviewUrl;
-            }, 1500);
+    function redirectToReviewBox() {
+        setRedirecting(true);
+        setTimeout(() => {
+            window.location.href = googleWriteReviewUrl;
+        }, 700);
+    }
+
+    async function handleCopyAndOpen() {
+        await copyReviewToClipboard();
+        redirectToReviewBox();
+    }
+
+    useEffect(() => {
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+        if (isIOS) {
+            // iOS often blocks non-user-gesture clipboard writes.
+            setRequiresManualCopy(true);
+            return;
         }
 
-        copyAndRedirect();
+        handleCopyAndOpen();
     }, [reviewText, googleWriteReviewUrl]);
 
     return (
@@ -116,7 +132,9 @@ export default function ReviewRedirectClient({
                 >
                     {redirecting
                         ? "Opening Google review box... Just tap Paste!"
-                        : `Thank you ${customerName}! Copying your review for ${shopName}...`}
+                        : requiresManualCopy
+                            ? `Thank you ${customerName}! Tap below to copy and open review for ${shopName}.`
+                            : `Thank you ${customerName}! Copying your review for ${shopName}...`}
                 </p>
 
                 {/* Review preview */}
@@ -169,23 +187,44 @@ export default function ReviewRedirectClient({
                     </div>
                 )}
 
-                {/* Manual button fallback */}
-                <a
-                    href={googleWriteReviewUrl}
-                    style={{
-                        display: "block",
-                        background: "linear-gradient(135deg, #8b5cf6, #d946ef)",
-                        color: "white",
-                        padding: "14px 24px",
-                        borderRadius: "14px",
-                        textDecoration: "none",
-                        fontWeight: "700",
-                        fontSize: "15px",
-                        boxShadow: "0 4px 14px rgba(139, 92, 246, 0.4)",
-                    }}
-                >
-                    Open Google Review Box
-                </a>
+                {requiresManualCopy ? (
+                    <button
+                        type="button"
+                        onClick={handleCopyAndOpen}
+                        style={{
+                            display: "block",
+                            width: "100%",
+                            background: "linear-gradient(135deg, #8b5cf6, #d946ef)",
+                            color: "white",
+                            padding: "14px 24px",
+                            borderRadius: "14px",
+                            border: "none",
+                            fontWeight: "700",
+                            fontSize: "15px",
+                            boxShadow: "0 4px 14px rgba(139, 92, 246, 0.4)",
+                            cursor: "pointer",
+                        }}
+                    >
+                        Copy Review and Open Google Review Box
+                    </button>
+                ) : (
+                    <a
+                        href={googleWriteReviewUrl}
+                        style={{
+                            display: "block",
+                            background: "linear-gradient(135deg, #8b5cf6, #d946ef)",
+                            color: "white",
+                            padding: "14px 24px",
+                            borderRadius: "14px",
+                            textDecoration: "none",
+                            fontWeight: "700",
+                            fontSize: "15px",
+                            boxShadow: "0 4px 14px rgba(139, 92, 246, 0.4)",
+                        }}
+                    >
+                        Open Google Review Box
+                    </a>
+                )}
 
                 <p
                     style={{
