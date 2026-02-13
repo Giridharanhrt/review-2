@@ -16,9 +16,33 @@ export default function ReviewRedirectClient({
     const [copied, setCopied] = useState(false);
     const [redirecting, setRedirecting] = useState(false);
 
-    const googleReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
+    const encodedPlaceId = encodeURIComponent(placeId);
+    const googleMapsWebUrl = `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${encodedPlaceId}`;
+    const googleMapsAndroidIntentUrl = `intent://maps.google.com/?q=Google&query_place_id=${encodedPlaceId}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(googleMapsWebUrl)};end`;
+    const googleMapsIosAppUrl = `comgooglemaps://?q=Google&query_place_id=${encodedPlaceId}`;
 
     useEffect(() => {
+        function openMapsByPlatform() {
+            const userAgent = navigator.userAgent || "";
+            const isAndroid = /Android/i.test(userAgent);
+            const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
+            if (isAndroid) {
+                window.location.href = googleMapsAndroidIntentUrl;
+                return;
+            }
+
+            if (isIOS) {
+                window.location.href = googleMapsIosAppUrl;
+                setTimeout(() => {
+                    window.location.href = googleMapsWebUrl;
+                }, 900);
+                return;
+            }
+
+            window.location.href = googleMapsWebUrl;
+        }
+
         async function copyAndRedirect() {
             try {
                 await navigator.clipboard.writeText(reviewText);
@@ -37,12 +61,12 @@ export default function ReviewRedirectClient({
             // Redirect after a short delay
             setRedirecting(true);
             setTimeout(() => {
-                window.location.href = googleReviewUrl;
+                openMapsByPlatform();
             }, 1500);
         }
 
         copyAndRedirect();
-    }, [reviewText, googleReviewUrl]);
+    }, [reviewText, googleMapsAndroidIntentUrl, googleMapsIosAppUrl, googleMapsWebUrl]);
 
     return (
         <div
@@ -113,7 +137,7 @@ export default function ReviewRedirectClient({
                     }}
                 >
                     {redirecting
-                        ? "Opening Google Reviews... Just tap Paste!"
+                        ? "Opening Google Maps... Just tap Paste!"
                         : `Thank you ${customerName}! Copying your review for ${shopName}...`}
                 </p>
 
@@ -162,14 +186,14 @@ export default function ReviewRedirectClient({
                             }}
                         />
                         <span style={{ fontSize: "13px", color: "#8b5cf6", fontWeight: "600" }}>
-                            Redirecting to Google...
+                            Redirecting to Google Maps...
                         </span>
                     </div>
                 )}
 
                 {/* Manual button fallback */}
                 <a
-                    href={googleReviewUrl}
+                    href={googleMapsWebUrl}
                     style={{
                         display: "block",
                         background: "linear-gradient(135deg, #8b5cf6, #d946ef)",
@@ -182,7 +206,7 @@ export default function ReviewRedirectClient({
                         boxShadow: "0 4px 14px rgba(139, 92, 246, 0.4)",
                     }}
                 >
-                    {copied ? "Paste Review on Google" : "Open Google Reviews"}
+                    {copied ? "Open in Google Maps" : "Open Google Maps"}
                 </a>
 
                 <p

@@ -749,8 +749,13 @@ export function ReviewForm() {
 
             // Build WhatsApp message with smart link
             const whatsappMessage = `Hi ${formData.customerName || ""}! Thank you for visiting Kalyaa Jewellers! We'd love a quick Google review from you. Tap here - your review is ready, just paste it!\n\n${data.url}`
-            const whatsappUrl = `https://wa.me/${(formData.customerPhone || '').replace(/\s+/g, '')}?text=${encodeURIComponent(whatsappMessage)}`
-            window.open(whatsappUrl, '_blank')
+            const whatsappPhone = (formData.customerPhone || "").replace(/\D/g, "")
+            const whatsappUrl = whatsappPhone
+                ? `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(whatsappMessage)}`
+                : `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappMessage)}`
+
+            // iPhone Safari commonly blocks window.open after async work; direct navigation is more reliable.
+            window.location.href = whatsappUrl
         } catch (error) {
             console.error(error)
         } finally {
