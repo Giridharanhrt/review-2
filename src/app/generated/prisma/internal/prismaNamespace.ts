@@ -594,16 +594,27 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const CustomerReviewScalarFieldEnum = {
   id: 'id',
-  shopName: 'shopName',
-  shopEmail: 'shopEmail',
+  orgName: 'orgName',
+  orgType: 'orgType',
+  attenderName: 'attenderName',
+  shopLocation: 'shopLocation',
+  orgDescription: 'orgDescription',
   customerName: 'customerName',
-  customerEmail: 'customerEmail',
-  phoneNumber: 'phoneNumber',
-  productName: 'productName',
-  rating: 'rating',
+  customerPhone: 'customerPhone',
+  purchaseType: 'purchaseType',
+  purchaseFrequency: 'purchaseFrequency',
+  purchaseDuration: 'purchaseDuration',
+  satisfactionLevel: 'satisfactionLevel',
+  keyHighlights: 'keyHighlights',
+  improvementAreas: 'improvementAreas',
+  recommendationLikelihood: 'recommendationLikelihood',
+  events: 'events',
+  shoppingMotivation: 'shoppingMotivation',
+  priceSensitivity: 'priceSensitivity',
+  brandLoyalty: 'brandLoyalty',
+  emotionalConnection: 'emotionalConnection',
   reviewText: 'reviewText',
-  sendSMS: 'sendSMS',
-  sendWhatsApp: 'sendWhatsApp',
+  customerMessage: 'customerMessage',
   createdAt: 'createdAt',
   status: 'status'
 } as const
@@ -681,13 +692,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

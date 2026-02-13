@@ -14,19 +14,30 @@ datasource db {
 }
 
 model CustomerReview {
-  id            String       @id @default(uuid())
-  shopName      String
-  shopEmail     String
-  customerName  String
-  customerEmail String
-  phoneNumber   String
-  productName   String
-  rating        Int
-  reviewText    String
-  sendSMS       Boolean      @default(false)
-  sendWhatsApp  Boolean      @default(false)
-  createdAt     DateTime     @default(now())
-  status        ReviewStatus @default(PENDING)
+  id                       String       @id @default(uuid())
+  orgName                  String       @default("Kalyaa Jewellers")
+  orgType                  String       @default("Jewellery Store")
+  attenderName             String?
+  shopLocation             String?
+  orgDescription           String?
+  customerName             String
+  customerPhone            String?
+  purchaseType             String       @default("")
+  purchaseFrequency        String       @default("")
+  purchaseDuration         String?
+  satisfactionLevel        Int          @default(8)
+  keyHighlights            String?
+  improvementAreas         String?
+  recommendationLikelihood Int          @default(9)
+  events                   String?
+  shoppingMotivation       String?
+  priceSensitivity         String?
+  brandLoyalty             String?
+  emotionalConnection      String?
+  reviewText               String       @db.Text
+  customerMessage          String?      @db.Text
+  createdAt                DateTime     @default(now())
+  status                   ReviewStatus @default(PENDING)
 }
 
 model ShortLink {
