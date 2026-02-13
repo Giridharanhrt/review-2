@@ -3,19 +3,19 @@
     "value": "mumbai_mg_road",
     "label": "Mumbai - M.G. Road",
     "address": "123 M.G. Road, Mumbai",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJox3cPgDJ5zsRZFxqkk0iZ8k"
   },
   {
     "value": "mumbai_bandra",
     "label": "Mumbai - Bandra West",
     "address": "45 Hill Road, Bandra, Mumbai",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJ0w73wXvJ5zsR8aGOtxMNNRY"
   },
   {
     "value": "mumbai_andheri",
     "label": "Mumbai - Andheri East",
     "address": "78 Andheri Kurla Road, Mumbai",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJK5FOh_DJ5zsRLIWpcKerY9s"
   },
   {
     "value": "pune_fc_road",
@@ -51,24 +51,24 @@
     "value": "bangalore_indiranagar",
     "label": "Bangalore - Indiranagar",
     "address": "34 100 Feet Road, Indiranagar, Bangalore",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJUffY0DQVrjsRG3T0Td9EyIc"
   },
   {
     "value": "hyderabad_banjara",
     "label": "Hyderabad - Banjara Hills",
     "address": "23 Road No. 1, Banjara Hills, Hyderabad",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJUYxKwSyXyzsRp1Oa2FMYlP0"
   },
   {
     "value": "chennai_t_nagar",
     "label": "Chennai - T. Nagar",
     "address": "67 North Usman Road, T. Nagar, Chennai",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJ40dEgZdnUjoRANuQenSJbdQ"
   },
   {
     "value": "kolkata_park_st",
     "label": "Kolkata - Park Street",
     "address": "15 Park Street, Kolkata",
-    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+    "placeId": "ChIJe6yzIVN2AjoRJLc4HQwbgi8"
   }
 ]
