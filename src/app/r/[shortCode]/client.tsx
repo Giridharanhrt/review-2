@@ -52,9 +52,11 @@ export default function ReviewRedirectClient({
     }
 
     useEffect(() => {
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || "");
-        if (isIOS) {
-            // iOS often blocks non-user-gesture clipboard writes.
+        const userAgent = navigator.userAgent || "";
+        const isIPhone = /iPhone/i.test(userAgent);
+
+        if (isIPhone) {
+            // iPhone commonly blocks non-user-gesture clipboard writes.
             setRequiresManualCopy(true);
             return;
         }

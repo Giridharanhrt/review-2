@@ -21,6 +21,7 @@ model CustomerReview {
   shopLocation             String?
   customerName             String
   customerPhone            String?
+  customerFrom             String?
   purchaseType             String       @default("")
   satisfactionLevel        Int          @default(8)
   keyHighlights            String?

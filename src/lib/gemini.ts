@@ -8,6 +8,7 @@ interface ReviewGenerationInput {
 
   customerName: string;
   customerPhone?: string;
+  customerFrom?: string;
 
   purchaseType: string;
 
@@ -69,6 +70,7 @@ ${input.shopLocation ? `- Location: ${input.shopLocation}` : ""}
 
 CUSTOMER:
 - Name: ${input.customerName}
+${input.customerFrom ? `- From: ${input.customerFrom}` : ""}
 - Bought: ${input.purchaseType}
 
 EXPERIENCE:

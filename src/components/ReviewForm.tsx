@@ -237,6 +237,7 @@ const orgSchema = z.object({
 const customerSchema = z.object({
     customerName: z.string().min(2, "Customer name is required"),
     customerPhone: z.string().min(13, "Valid phone number required"),
+    customerFrom: z.string().min(2, "Customer from is required"),
     purchaseType: z.string().min(2, "What was purchased is required"),
     satisfactionLevel: z.string().min(1).max(10),
     keyHighlights: z.string().optional(),
@@ -549,6 +550,7 @@ interface FormData {
     orgDescription?: string;
     customerName?: string;
     customerPhone?: string;
+    customerFrom?: string;
     purchaseType?: string;
     satisfactionLevel?: string;
     keyHighlights?: string;
@@ -592,6 +594,7 @@ export function ReviewForm() {
         defaultValues: {
             customerName: "",
             customerPhone: "+91",
+            customerFrom: "",
             purchaseType: "",
             satisfactionLevel: "8",
             keyHighlights: "",
@@ -956,6 +959,27 @@ export function ReviewForm() {
                                             <PhoneInput
                                                 value={field.value}
                                                 onChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage className="text-xs text-red-500" />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={customerForm.control}
+                                name="customerFrom"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-2">
+                                        <div className="flex items-center gap-2">
+                                            <Target className="w-4 h-4 text-blue-500" />
+                                            <FormLabel className="text-sm font-semibold text-gray-700">Customer From</FormLabel>
+                                        </div>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="e.g., T. Nagar, Chennai"
+                                                className="h-11 text-sm border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500/20 transition-all"
+                                                {...field}
                                             />
                                         </FormControl>
                                         <FormMessage className="text-xs text-red-500" />
