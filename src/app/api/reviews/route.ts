@@ -10,26 +10,20 @@ export async function POST(req: Request) {
             orgType,
             attenderName,
             shopLocation,
-            orgDescription,
             customerName,
             customerPhone,
             purchaseType,
-            purchaseFrequency,
-            purchaseDuration,
             satisfactionLevel,
             keyHighlights,
             improvementAreas,
             recommendationLikelihood,
             events,
-            shoppingMotivation,
-            priceSensitivity,
             brandLoyalty,
             emotionalConnection,
             reviewText,
-            customerMessage,
         } = body;
 
-        if (!customerName || !purchaseType || !purchaseFrequency || !reviewText) {
+        if (!customerName || !purchaseType || !reviewText) {
             return NextResponse.json(
                 { error: "Missing required fields" },
                 { status: 400 }
@@ -42,34 +36,51 @@ export async function POST(req: Request) {
                 orgType: orgType || "Jewellery Store",
                 attenderName: attenderName || null,
                 shopLocation: shopLocation || null,
-                orgDescription: orgDescription || null,
                 customerName,
                 customerPhone: customerPhone || null,
                 purchaseType,
-                purchaseFrequency,
-                purchaseDuration: purchaseDuration || null,
                 satisfactionLevel: parseInt(satisfactionLevel) || 8,
                 keyHighlights: keyHighlights || null,
                 improvementAreas: improvementAreas || null,
                 recommendationLikelihood: parseInt(recommendationLikelihood) || 9,
                 events: Array.isArray(events) ? events.join(", ") : (events || null),
-                shoppingMotivation: Array.isArray(shoppingMotivation) ? shoppingMotivation.join(", ") : (shoppingMotivation || null),
-                priceSensitivity: priceSensitivity || null,
                 brandLoyalty: brandLoyalty || null,
                 emotionalConnection: emotionalConnection || null,
                 reviewText,
-                customerMessage: customerMessage || null,
             },
         });
 
-        return NextResponse.json({
-            success: true,
-            id: review.id,
-        });
+        return NextResponse.json({ success: true, id: review.id });
     } catch (error) {
         console.error("Save Review Error:", error);
         return NextResponse.json(
             { error: "Failed to save review" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function PATCH(req: Request) {
+    try {
+        const { id, reviewText } = await req.json();
+
+        if (!id || !reviewText) {
+            return NextResponse.json(
+                { error: "Missing id or reviewText" },
+                { status: 400 }
+            );
+        }
+
+        await prisma.customerReview.update({
+            where: { id },
+            data: { reviewText },
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("Update Review Error:", error);
+        return NextResponse.json(
+            { error: "Failed to update review" },
             { status: 500 }
         );
     }
