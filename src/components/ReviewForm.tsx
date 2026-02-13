@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import shopLocations from "@/data/shop-locations.json"
 import { 
     Building2, 
     User, 
@@ -218,25 +219,10 @@ type ShopLocation = {
     value: string
     label: string
     address: string
-    mapQuery: string
-    placeId?: string
+    placeId: string
 }
 
-// Kalyaa Jewellers shop locations. Use placeId when known; otherwise mapQuery is used.
-const SHOP_LOCATIONS: ShopLocation[] = [
-    { value: "mumbai_mg_road", label: "Mumbai - M.G. Road", address: "123 M.G. Road, Mumbai", mapQuery: "Kalyan Jewellers M.G. Road Mumbai" },
-    { value: "mumbai_bandra", label: "Mumbai - Bandra West", address: "45 Hill Road, Bandra, Mumbai", mapQuery: "Kalyan Jewellers Bandra West Mumbai" },
-    { value: "mumbai_andheri", label: "Mumbai - Andheri East", address: "78 Andheri Kurla Road, Mumbai", mapQuery: "Kalyan Jewellers Andheri East Mumbai" },
-    { value: "pune_fc_road", label: "Pune - F.C. Road", address: "256 F.C. Road, Pune", mapQuery: "Kalyan Jewellers F.C. Road Pune" },
-    { value: "pune_camp", label: "Pune - Camp", address: "89 M.G. Road, Camp, Pune", mapQuery: "Kalyan Jewellers Camp Pune" },
-    { value: "delhi_karol_bagh", label: "Delhi - Karol Bagh", address: "45 Ajmal Khan Road, Karol Bagh, Delhi", mapQuery: "Kalyan Jewellers Karol Bagh Delhi" },
-    { value: "delhi_south_ext", label: "Delhi - South Extension", address: "12 South Extension Part I, Delhi", mapQuery: "Kalyan Jewellers South Extension Delhi" },
-    { value: "bangalore_brigade", label: "Bangalore - Brigade Road", address: "78 Brigade Road, Bangalore", mapQuery: "Kalyan Jewellers Brigade Road Bangalore" },
-    { value: "bangalore_indiranagar", label: "Bangalore - Indiranagar", address: "34 100 Feet Road, Indiranagar, Bangalore", mapQuery: "Kalyan Jewellers Indiranagar Bangalore" },
-    { value: "hyderabad_banjara", label: "Hyderabad - Banjara Hills", address: "23 Road No. 1, Banjara Hills, Hyderabad", mapQuery: "Kalyan Jewellers Banjara Hills Hyderabad" },
-    { value: "chennai_t_nagar", label: "Chennai - T. Nagar", address: "67 North Usman Road, T. Nagar, Chennai", mapQuery: "Kalyan Jewellers T. Nagar Chennai" },
-    { value: "kolkata_park_st", label: "Kolkata - Park Street", address: "15 Park Street, Kolkata", mapQuery: "Kalyan Jewellers Park Street Kolkata" },
-]
+const SHOP_LOCATIONS: ShopLocation[] = shopLocations as ShopLocation[]
 
 // Step 1: Organization Schema
 const orgSchema = z.object({
@@ -738,7 +724,7 @@ export function ReviewForm() {
         setIsCreatingLink(true)
         try {
             const selectedLocation = SHOP_LOCATIONS.find(loc => loc.value === formData.shopLocation)
-            const placeTarget = selectedLocation?.placeId || selectedLocation?.mapQuery || ""
+            const placeTarget = selectedLocation?.placeId || ""
 
             const response = await fetch("/api/shortlink", {
                 method: "POST",

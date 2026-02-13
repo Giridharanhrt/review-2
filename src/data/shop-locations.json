@@ -1,0 +1,74 @@
+[
+  {
+    "value": "mumbai_mg_road",
+    "label": "Mumbai - M.G. Road",
+    "address": "123 M.G. Road, Mumbai",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "mumbai_bandra",
+    "label": "Mumbai - Bandra West",
+    "address": "45 Hill Road, Bandra, Mumbai",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "mumbai_andheri",
+    "label": "Mumbai - Andheri East",
+    "address": "78 Andheri Kurla Road, Mumbai",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "pune_fc_road",
+    "label": "Pune - F.C. Road",
+    "address": "256 F.C. Road, Pune",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "pune_camp",
+    "label": "Pune - Camp",
+    "address": "89 M.G. Road, Camp, Pune",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "delhi_karol_bagh",
+    "label": "Delhi - Karol Bagh",
+    "address": "45 Ajmal Khan Road, Karol Bagh, Delhi",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "delhi_south_ext",
+    "label": "Delhi - South Extension",
+    "address": "12 South Extension Part I, Delhi",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "bangalore_brigade",
+    "label": "Bangalore - Brigade Road",
+    "address": "78 Brigade Road, Bangalore",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "bangalore_indiranagar",
+    "label": "Bangalore - Indiranagar",
+    "address": "34 100 Feet Road, Indiranagar, Bangalore",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "hyderabad_banjara",
+    "label": "Hyderabad - Banjara Hills",
+    "address": "23 Road No. 1, Banjara Hills, Hyderabad",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "chennai_t_nagar",
+    "label": "Chennai - T. Nagar",
+    "address": "67 North Usman Road, T. Nagar, Chennai",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  },
+  {
+    "value": "kolkata_park_st",
+    "label": "Kolkata - Park Street",
+    "address": "15 Park Street, Kolkata",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
+  }
+]
