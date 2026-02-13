@@ -38,12 +38,9 @@ import {
     Brain,
     Zap,
     Target,
-    TrendingUp,
     Heart,
-    Wallet,
     Award,
     Smartphone,
-    Clock,
     ThumbsUp,
     Lightbulb,
     Wand2,
@@ -51,8 +48,6 @@ import {
     Bot,
     Check,
     Calendar,
-    Save,
-    MessageSquare,
     Copy,
     ClipboardCheck,
     ChevronDown,
@@ -219,20 +214,20 @@ function PhoneInput({
     )
 }
 
-// Kalyaa Jewellers Shop Locations
+// Kalyaa Jewellers Shop Locations with Google Place IDs
 const SHOP_LOCATIONS = [
-    { value: "mumbai_mg_road", label: "Mumbai - M.G. Road", address: "123 M.G. Road, Mumbai" },
-    { value: "mumbai_bandra", label: "Mumbai - Bandra West", address: "45 Hill Road, Bandra, Mumbai" },
-    { value: "mumbai_andheri", label: "Mumbai - Andheri East", address: "78 Andheri Kurla Road, Mumbai" },
-    { value: "pune_fc_road", label: "Pune - F.C. Road", address: "256 F.C. Road, Pune" },
-    { value: "pune_camp", label: "Pune - Camp", address: "89 M.G. Road, Camp, Pune" },
-    { value: "delhi_karol_bagh", label: "Delhi - Karol Bagh", address: "45 Ajmal Khan Road, Karol Bagh, Delhi" },
-    { value: "delhi_south_ext", label: "Delhi - South Extension", address: "12 South Extension Part I, Delhi" },
-    { value: "bangalore_brigade", label: "Bangalore - Brigade Road", address: "78 Brigade Road, Bangalore" },
-    { value: "bangalore_indiranagar", label: "Bangalore - Indiranagar", address: "34 100 Feet Road, Indiranagar, Bangalore" },
-    { value: "hyderabad_banjara", label: "Hyderabad - Banjara Hills", address: "23 Road No. 1, Banjara Hills, Hyderabad" },
-    { value: "chennai_t_nagar", label: "Chennai - T. Nagar", address: "67 North Usman Road, T. Nagar, Chennai" },
-    { value: "kolkata_park_st", label: "Kolkata - Park Street", address: "15 Park Street, Kolkata" },
+    { value: "mumbai_mg_road", label: "Mumbai - M.G. Road", address: "123 M.G. Road, Mumbai", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "mumbai_bandra", label: "Mumbai - Bandra West", address: "45 Hill Road, Bandra, Mumbai", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "mumbai_andheri", label: "Mumbai - Andheri East", address: "78 Andheri Kurla Road, Mumbai", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "pune_fc_road", label: "Pune - F.C. Road", address: "256 F.C. Road, Pune", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "pune_camp", label: "Pune - Camp", address: "89 M.G. Road, Camp, Pune", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "delhi_karol_bagh", label: "Delhi - Karol Bagh", address: "45 Ajmal Khan Road, Karol Bagh, Delhi", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "delhi_south_ext", label: "Delhi - South Extension", address: "12 South Extension Part I, Delhi", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "bangalore_brigade", label: "Bangalore - Brigade Road", address: "78 Brigade Road, Bangalore", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "bangalore_indiranagar", label: "Bangalore - Indiranagar", address: "34 100 Feet Road, Indiranagar, Bangalore", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "hyderabad_banjara", label: "Hyderabad - Banjara Hills", address: "23 Road No. 1, Banjara Hills, Hyderabad", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "chennai_t_nagar", label: "Chennai - T. Nagar", address: "67 North Usman Road, T. Nagar, Chennai", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
+    { value: "kolkata_park_st", label: "Kolkata - Park Street", address: "15 Park Street, Kolkata", placeId: "ChIJha8EDVZYqDsRMq-49v_wem0" },
 ]
 
 // Step 1: Organization Schema
@@ -249,8 +244,6 @@ const customerSchema = z.object({
     customerName: z.string().min(2, "Customer name is required"),
     customerPhone: z.string().min(13, "Valid phone number required"),
     purchaseType: z.string().min(2, "What was purchased is required"),
-    purchaseFrequency: z.string().min(1, "Purchase frequency is required"),
-    purchaseDuration: z.string().optional(),
     satisfactionLevel: z.string().min(1).max(10),
     keyHighlights: z.string().optional(),
     improvementAreas: z.string().optional(),
@@ -258,9 +251,6 @@ const customerSchema = z.object({
     // Event field with others option
     events: z.array(z.string()).default([]),
     eventOther: z.string().optional(),
-    // Multi-select arrays for psychological insights
-    shoppingMotivation: z.array(z.string()).default([]),
-    priceSensitivity: z.string().default(""),
     brandLoyalty: z.string().default(""),
     emotionalConnection: z.string().default(""),
 })
@@ -269,20 +259,7 @@ type Step = 1 | 2 | 3
 
 interface GeneratedReview {
     review: string
-    customerMessage: string
-    whatsappLink: string
 }
-
-// Multi-select options based on psychological research
-const MOTIVATION_OPTIONS = [
-    { value: "quality", label: "Quality & Craftsmanship", icon: "✨", color: "bg-violet-100 border-violet-300 text-violet-700" },
-    { value: "price", label: "Price & Value", icon: "💰", color: "bg-green-100 border-green-300 text-green-700" },
-    { value: "brand", label: "Brand Reputation", icon: "🏆", color: "bg-amber-100 border-amber-300 text-amber-700" },
-    { value: "design", label: "Design & Aesthetics", icon: "🎨", color: "bg-pink-100 border-pink-300 text-pink-700" },
-    { value: "convenience", label: "Convenience", icon: "⚡", color: "bg-blue-100 border-blue-300 text-blue-700" },
-    { value: "recommendation", label: "Recommendation", icon: "👥", color: "bg-indigo-100 border-indigo-300 text-indigo-700" },
-    { value: "emotional", label: "Emotional Connection", icon: "❤️", color: "bg-rose-100 border-rose-300 text-rose-700" },
-]
 
 // Event options for multi-select with "Others" option
 const EVENT_OPTIONS = [
@@ -295,14 +272,6 @@ const EVENT_OPTIONS = [
     { value: "investment", label: "Investment", icon: "📈", color: "bg-green-100 border-green-300 text-green-700" },
     { value: "daily_wear", label: "Daily Wear", icon: "✨", color: "bg-blue-100 border-blue-300 text-blue-700" },
     { value: "other", label: "Others", icon: "📝", color: "bg-gray-100 border-gray-300 text-gray-700" },
-]
-
-const PRICE_SENSITIVITY_OPTIONS = [
-    { value: "very_high", label: "Very High", description: "Always compare prices", icon: "🔍" },
-    { value: "high", label: "High", description: "Price matters a lot", icon: "💭" },
-    { value: "medium", label: "Medium", description: "Balance price & quality", icon: "⚖️" },
-    { value: "low", label: "Low", description: "Quality over price", icon: "💎" },
-    { value: "very_low", label: "Premium", description: "Willing to pay more", icon: "👑" },
 ]
 
 const BRAND_LOYALTY_OPTIONS = [
@@ -319,14 +288,6 @@ const EMOTIONAL_CONNECTION_OPTIONS = [
     { value: "moderate", label: "Moderate", description: "Generally positive", icon: "🙂" },
     { value: "neutral", label: "Neutral", description: "No strong feelings", icon: "😐" },
     { value: "weak", label: "Detached", description: "Little connection", icon: "🌊" },
-]
-
-const PURCHASE_FREQUENCY_OPTIONS = [
-    { value: "first_time", label: "First-time Buyer", icon: "🎯" },
-    { value: "rarely", label: "Rarely", description: "Once a year", icon: "📅" },
-    { value: "occasionally", label: "Occasionally", description: "Few times a year", icon: "🌸" },
-    { value: "regularly", label: "Regularly", description: "Monthly", icon: "📊" },
-    { value: "frequently", label: "Frequently", description: "Weekly/Daily", icon: "🚀" },
 ]
 
 function StepIndicator({ currentStep }: { currentStep: Step }) {
@@ -451,62 +412,6 @@ function RatingSlider({
             <div className="flex justify-between text-[10px] font-medium text-gray-400 uppercase tracking-wider">
                 <span>Poor</span>
                 <span>Excellent</span>
-            </div>
-        </div>
-    )
-}
-
-// Multi-select component for shopping motivation
-function MultiSelectMotivation({ 
-    value, 
-    onChange 
-}: { 
-    value: string[]; 
-    onChange: (value: string[]) => void;
-}) {
-    const toggleOption = (optionValue: string) => {
-        if (value.includes(optionValue)) {
-            onChange(value.filter(v => v !== optionValue))
-        } else {
-            onChange([...value, optionValue])
-        }
-    }
-
-    return (
-        <div className="space-y-3">
-            <p className="text-xs text-gray-500">Select all that apply (tap to select/deselect)</p>
-            <div className="grid grid-cols-2 gap-2">
-                {MOTIVATION_OPTIONS.map((option) => {
-                    const isSelected = value.includes(option.value)
-                    return (
-                        <button
-                            key={option.value}
-                            type="button"
-                            onClick={() => toggleOption(option.value)}
-                            className={`
-                                relative p-3 rounded-xl border-2 transition-all duration-200 text-left
-                                ${isSelected 
-                                    ? option.color + ' border-current shadow-md scale-[0.98]' 
-                                    : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                                }
-                            `}
-                        >
-                            <div className="flex items-start gap-2">
-                                <span className="text-lg">{option.icon}</span>
-                                <div className="flex-1 min-w-0">
-                                    <p className={`text-xs font-semibold ${isSelected ? 'text-current' : 'text-gray-700'}`}>
-                                        {option.label}
-                                    </p>
-                                </div>
-                                {isSelected && (
-                                    <div className="absolute top-2 right-2 w-4 h-4 bg-current rounded-full flex items-center justify-center">
-                                        <Check className="w-3 h-3 text-white" />
-                                    </div>
-                                )}
-                            </div>
-                        </button>
-                    )
-                })}
             </div>
         </div>
     )
@@ -651,16 +556,12 @@ interface FormData {
     customerName?: string;
     customerPhone?: string;
     purchaseType?: string;
-    purchaseFrequency?: string;
-    purchaseDuration?: string;
     satisfactionLevel?: string;
     keyHighlights?: string;
     improvementAreas?: string;
     recommendationLikelihood?: string;
     events?: string[];
     eventOther?: string;
-    shoppingMotivation?: string[];
-    priceSensitivity?: string;
     brandLoyalty?: string;
     emotionalConnection?: string;
 }
@@ -670,14 +571,14 @@ export function ReviewForm() {
     const [isGenerating, setIsGenerating] = useState(false)
     const [generatedReview, setGeneratedReview] = useState<GeneratedReview | null>(null)
     const [formData, setFormData] = useState<FormData>({})
-    const [isSaving, setIsSaving] = useState(false)
-    const [isSaved, setIsSaved] = useState(false)
+    const [savedReviewId, setSavedReviewId] = useState<string | null>(null)
     const [regenerateModalOpen, setRegenerateModalOpen] = useState(false)
-    const [regenerateType, setRegenerateType] = useState<"review" | "customerMessage">("review")
     const [improvementHint, setImprovementHint] = useState("")
-    const [regeneratingTarget, setRegeneratingTarget] = useState<"review" | "customerMessage" | null>(null)
+    const [regeneratingTarget, setRegeneratingTarget] = useState<"review" | null>(null)
     const [copiedReview, setCopiedReview] = useState(false)
-    const [copiedMessage, setCopiedMessage] = useState(false)
+    const [smartLink, setSmartLink] = useState<string | null>(null)
+    const [isCreatingLink, setIsCreatingLink] = useState(false)
+    const [locationSearch, setLocationSearch] = useState("")
 
     const orgForm = useForm<z.infer<typeof orgSchema>>({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -698,16 +599,12 @@ export function ReviewForm() {
             customerName: "",
             customerPhone: "+91",
             purchaseType: "",
-            purchaseFrequency: "",
-            purchaseDuration: "",
             satisfactionLevel: "8",
             keyHighlights: "",
             improvementAreas: "",
             recommendationLikelihood: "9",
             events: [],
             eventOther: "",
-            shoppingMotivation: [],
-            priceSensitivity: "",
             brandLoyalty: "",
             emotionalConnection: "",
         },
@@ -735,17 +632,27 @@ export function ReviewForm() {
             }
 
             const data = await response.json()
-            
-            const whatsappText = encodeURIComponent(data.customerMessage || data.review)
-            const customerPhone = (fullData.customerPhone || '').replace(/\s+/g, '').replace(/^0+/, '')
-            const whatsappLink = `https://wa.me/${customerPhone}?text=${whatsappText}`
 
-            setGeneratedReview({
-                review: data.review,
-                customerMessage: data.customerMessage || data.review,
-                whatsappLink,
-            })
+            setGeneratedReview({ review: data.review })
             setCurrentStep(3)
+
+            // Auto-save to DB
+            try {
+                const saveResponse = await fetch("/api/reviews", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        ...fullData,
+                        reviewText: data.review,
+                    }),
+                })
+                if (saveResponse.ok) {
+                    const saveData = await saveResponse.json()
+                    setSavedReviewId(saveData.id)
+                }
+            } catch (e) {
+                console.error("Auto-save failed:", e)
+            }
         } catch (error) {
             console.error(error)
             customerForm.setError("root", {
@@ -757,15 +664,14 @@ export function ReviewForm() {
         }
     }
 
-    const openRegenerateModal = useCallback((type: "review" | "customerMessage") => {
-        setRegenerateType(type)
+    const openRegenerateModal = useCallback(() => {
         setImprovementHint("")
         setRegenerateModalOpen(true)
     }, [])
 
     const handleRegenerate = async () => {
         setRegenerateModalOpen(false)
-        setRegeneratingTarget(regenerateType)
+        setRegeneratingTarget("review")
         setIsGenerating(true)
         try {
             const response = await fetch("/api/generate-review", {
@@ -774,59 +680,32 @@ export function ReviewForm() {
                 body: JSON.stringify({
                     ...formData,
                     improvementHint: improvementHint || undefined,
-                    regenerateType,
                 }),
             })
 
-            if (!response.ok) {
-                throw new Error("Failed to regenerate")
-            }
+            if (!response.ok) throw new Error("Failed to regenerate")
 
             const data = await response.json()
-            const whatsappText = encodeURIComponent(data.customerMessage || data.review)
-            const customerPhone = (formData.customerPhone || '').replace(/\s+/g, '').replace(/^0+/, '')
-            const whatsappLink = `https://wa.me/${customerPhone}?text=${whatsappText}`
+            setGeneratedReview({ review: data.review })
+            setSmartLink(null)
 
-            setGeneratedReview((prev) => {
-                if (!prev) return prev
-                return {
-                    review: regenerateType === "review" ? data.review : prev.review,
-                    customerMessage: regenerateType === "customerMessage" ? (data.customerMessage || data.review) : prev.customerMessage,
-                    whatsappLink: regenerateType === "customerMessage" ? whatsappLink : prev.whatsappLink,
+            // Auto-update in DB
+            if (savedReviewId) {
+                try {
+                    await fetch("/api/reviews", {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id: savedReviewId, reviewText: data.review }),
+                    })
+                } catch (e) {
+                    console.error("Auto-update failed:", e)
                 }
-            })
-            setIsSaved(false)
+            }
         } catch (error) {
             console.error(error)
         } finally {
             setIsGenerating(false)
             setRegeneratingTarget(null)
-        }
-    }
-
-    const saveReview = async () => {
-        if (!generatedReview) return
-        setIsSaving(true)
-        try {
-            const response = await fetch("/api/reviews", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ...formData,
-                    reviewText: generatedReview.review,
-                    customerMessage: generatedReview.customerMessage,
-                }),
-            })
-
-            if (!response.ok) {
-                throw new Error("Failed to save review")
-            }
-
-            setIsSaved(true)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setIsSaving(false)
         }
     }
 
@@ -840,8 +719,43 @@ export function ReviewForm() {
         setCurrentStep(1)
         setGeneratedReview(null)
         setFormData({})
+        setSmartLink(null)
+        setSavedReviewId(null)
         orgForm.reset()
         customerForm.reset()
+    }
+
+    const createSmartLink = async () => {
+        if (!generatedReview) return
+        setIsCreatingLink(true)
+        try {
+            const selectedLocation = SHOP_LOCATIONS.find(loc => loc.value === formData.shopLocation)
+            const placeId = selectedLocation?.placeId || "ChIJha8EDVZYqDsRMq-49v_wem0"
+
+            const response = await fetch("/api/shortlink", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    reviewText: generatedReview.review,
+                    customerName: formData.customerName || "Customer",
+                    shopName: "Kalyaa Jewellers",
+                    placeId,
+                }),
+            })
+
+            if (!response.ok) throw new Error("Failed to create link")
+            const data = await response.json()
+            setSmartLink(data.url)
+
+            // Build WhatsApp message with smart link
+            const whatsappMessage = `Hi ${formData.customerName || ""}! Thank you for visiting Kalyaa Jewellers! We'd love a quick Google review from you. Tap here - your review is ready, just paste it!\n\n${data.url}`
+            const whatsappUrl = `https://wa.me/${(formData.customerPhone || '').replace(/\s+/g, '')}?text=${encodeURIComponent(whatsappMessage)}`
+            window.open(whatsappUrl, '_blank')
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsCreatingLink(false)
+        }
     }
 
     // Step 1: Organization Information
@@ -891,7 +805,6 @@ export function ReviewForm() {
                             control={orgForm.control}
                             name="shopLocation"
                             render={({ field }) => {
-                                const [locationSearch, setLocationSearch] = useState("")
                                 const filteredLocations = locationSearch
                                     ? SHOP_LOCATIONS.filter(loc =>
                                         loc.label.toLowerCase().includes(locationSearch.toLowerCase()) ||
@@ -958,27 +871,6 @@ export function ReviewForm() {
                                     </FormItem>
                                 )
                             }}
-                        />
-
-                        <FormField
-                            control={orgForm.control}
-                            name="orgDescription"
-                            render={({ field }) => (
-                                <FormItem className="px-5 py-4 space-y-2 hover:bg-gray-50/50 transition-colors">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <Lightbulb className="w-4 h-4 text-violet-500" />
-                                        <FormLabel className="text-sm font-semibold text-gray-700">Additional Notes <span className="text-gray-400 font-normal">(Optional)</span></FormLabel>
-                                    </div>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Any additional context about this shop or location..."
-                                            className="min-h-[80px] text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 resize-none transition-all"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs text-red-500" />
-                                </FormItem>
-                            )}
                         />
 
                         <div className="p-5 bg-gradient-to-r from-gray-50 to-white border-t border-gray-100">
@@ -1097,55 +989,12 @@ export function ReviewForm() {
 
                             <FormField
                                 control={customerForm.control}
-                                name="purchaseFrequency"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-3">
-                                        <div className="flex items-center gap-2">
-                                            <TrendingUp className="w-4 h-4 text-emerald-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">How often do they buy?</FormLabel>
-                                        </div>
-                                        <FormControl>
-                                            <SelectCard
-                                                options={PURCHASE_FREQUENCY_OPTIONS}
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                                showDescription={true}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs text-red-500" />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={customerForm.control}
-                                name="purchaseDuration"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-2">
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="w-4 h-4 text-emerald-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">Customer since <span className="text-gray-400 font-normal">(Optional)</span></FormLabel>
-                                        </div>
-                                        <FormControl>
-                                            <Input 
-                                                placeholder="e.g., 2 years" 
-                                                className="h-11 text-sm border-gray-200 rounded-xl focus:border-emerald-500 focus:ring-emerald-500/20 transition-all"
-                                                {...field} 
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs text-red-500" />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={customerForm.control}
                                 name="events"
                                 render={({ field }) => (
                                     <FormItem className="space-y-3">
                                         <div className="flex items-center gap-2">
                                             <Calendar className="w-4 h-4 text-emerald-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">What's the occasion?</FormLabel>
+                                            <FormLabel className="text-sm font-semibold text-gray-700">What&apos;s the occasion?</FormLabel>
                                         </div>
                                         <FormControl>
                                             <MultiSelectEventsWithOther
@@ -1252,52 +1101,10 @@ export function ReviewForm() {
                         <SectionHeader 
                             icon={Brain} 
                             title="Customer Psychology" 
-                            subtitle="Quick selections - understand their mindset"
+                            subtitle="Quick selections to capture customer relationship"
                         />
 
                         <div className="px-5 py-4 space-y-6 pb-6">
-                            <FormField
-                                control={customerForm.control}
-                                name="shoppingMotivation"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-3">
-                                        <div className="flex items-center gap-2">
-                                            <Target className="w-4 h-4 text-rose-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">What motivated them to buy?</FormLabel>
-                                        </div>
-                                        <FormControl>
-                                            <MultiSelectMotivation
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs text-red-500" />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={customerForm.control}
-                                name="priceSensitivity"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-3">
-                                        <div className="flex items-center gap-2">
-                                            <Wallet className="w-4 h-4 text-rose-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">Price Sensitivity</FormLabel>
-                                        </div>
-                                        <FormControl>
-                                            <SelectCard
-                                                options={PRICE_SENSITIVITY_OPTIONS}
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                                showDescription={true}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs text-red-500" />
-                                    </FormItem>
-                                )}
-                            />
-
                             <FormField
                                 control={customerForm.control}
                                 name="brandLoyalty"
@@ -1394,15 +1201,15 @@ export function ReviewForm() {
                         <DialogHeader>
                             <DialogTitle className="flex items-center gap-2">
                                 <RefreshCw className="w-5 h-5 text-violet-600" />
-                                Regenerate {regenerateType === "review" ? "Review" : "Customer Message"}
+                                Regenerate Review
                             </DialogTitle>
                             <DialogDescription>
-                                What would you like to improve? Describe the changes you want and we'll regenerate accordingly.
+                                What would you like to improve? Describe the changes and we&apos;ll regenerate.
                             </DialogDescription>
                         </DialogHeader>
                         <div className="py-3">
                             <Textarea
-                                placeholder="e.g., Make it more emotional, mention the gold purity, add more specific details about the service..."
+                                placeholder="e.g., Make it shorter, mention gold purity, sound more casual..."
                                 value={improvementHint}
                                 onChange={(e) => setImprovementHint(e.target.value)}
                                 className="min-h-[100px] text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 resize-none"
@@ -1427,52 +1234,23 @@ export function ReviewForm() {
                     </DialogContent>
                 </Dialog>
 
-                {/* Header with Save Button */}
+                {/* Header */}
                 <div className="px-5 py-4 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                <Bot className="w-5 h-5 text-white" />
-                            </div>
-                            <div>
-                                <h2 className="text-base font-bold text-white">Generated Review</h2>
-                                <p className="text-[11px] text-white/80">Review completed</p>
-                            </div>
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                            <Bot className="w-5 h-5 text-white" />
                         </div>
-                        <Button
-                            onClick={saveReview}
-                            disabled={isSaving || isSaved}
-                            size="sm"
-                            className={`cursor-pointer h-9 text-xs font-bold rounded-xl transition-all active:scale-95 ${
-                                isSaved
-                                    ? 'bg-white/20 text-white border border-white/30'
-                                    : 'bg-white text-violet-700 hover:bg-white/90 shadow-lg shadow-black/10'
-                            }`}
-                        >
-                            {isSaving ? (
-                                <>
-                                    <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
-                                    Saving...
-                                </>
-                            ) : isSaved ? (
-                                <>
-                                    <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
-                                    Saved
-                                </>
-                            ) : (
-                                <>
-                                    <Save className="w-3.5 h-3.5 mr-1.5" />
-                                    Save Review
-                                </>
-                            )}
-                        </Button>
+                        <div>
+                            <h2 className="text-base font-bold text-white">Generated Review</h2>
+                            <p className="text-[11px] text-white/80">Auto-saved to database</p>
+                        </div>
                     </div>
                 </div>
 
                 <div className="p-5 space-y-5">
                     {/* Generated Review */}
                     <div>
-                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Generated Review</p>
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Google Review</p>
                         <div className="relative bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 rounded-2xl p-5 border border-violet-200 shadow-inner overflow-hidden">
                             {regeneratingTarget === "review" && (
                                 <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] rounded-2xl flex items-center justify-center">
@@ -1500,7 +1278,7 @@ export function ReviewForm() {
                         <div className="flex gap-3 mt-3">
                             <Button
                                 variant="outline"
-                                onClick={() => openRegenerateModal("review")}
+                                onClick={() => openRegenerateModal()}
                                 disabled={regeneratingTarget !== null}
                                 className="flex-1 h-11 text-sm font-semibold rounded-xl border-violet-200 text-violet-700 hover:bg-violet-50 hover:border-violet-300 transition-all cursor-pointer"
                             >
@@ -1537,88 +1315,40 @@ export function ReviewForm() {
                         </div>
                     </div>
 
-                    {/* Customer Thank-You Message */}
-                    <div>
-                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">WhatsApp Message to Customer</p>
-                        <div className="relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 pb-16 border border-green-200 shadow-inner overflow-hidden">
-                            {regeneratingTarget === "customerMessage" && (
-                                <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] rounded-2xl flex items-center justify-center">
-                                    <div className="flex flex-col items-center gap-3">
-                                        <div className="relative">
-                                            <div className="w-12 h-12 rounded-full border-4 border-green-200 border-t-green-600 animate-spin" />
-                                            <MessageSquare className="w-5 h-5 text-green-600 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-                                        </div>
-                                        <p className="text-sm font-semibold text-green-700">Regenerating message...</p>
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-200/30 to-transparent animate-shimmer" />
-                                </div>
+                    {/* Send Smart Link via WhatsApp */}
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 border border-green-200">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/30">
+                                <Share2 className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-bold text-gray-800">Send to Customer via WhatsApp</p>
+                                <p className="text-[11px] text-gray-500">Creates a smart link: copies review + opens Google Reviews</p>
+                            </div>
+                        </div>
+                        <Button
+                            onClick={createSmartLink}
+                            disabled={isCreatingLink}
+                            className="w-full h-12 text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg shadow-green-500/30 transition-all active:scale-[0.98] cursor-pointer group"
+                        >
+                            {isCreatingLink ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    Creating smart link...
+                                </>
+                            ) : (
+                                <>
+                                    <Share2 className="w-4 h-4 mr-2" />
+                                    Send Review Link on WhatsApp
+                                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                </>
                             )}
-                            <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-green-500/30">
-                                    <Share2 className="w-5 h-5 text-white" />
-                                </div>
-                                <div className="flex-1">
-                                    <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
-                                        {generatedReview.customerMessage}
-                                    </p>
-                                </div>
-                            </div>
-                            {/* Share WhatsApp button inside message area */}
-                            <div className="absolute bottom-3 right-3 z-[5]">
-                                <a
-                                    href={generatedReview.whatsappLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button
-                                        size="sm"
-                                        className="h-9 text-xs font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg shadow-green-500/25 transition-all active:scale-95 cursor-pointer"
-                                    >
-                                        <Share2 className="w-3.5 h-3.5 mr-1.5" />
-                                        Send on WhatsApp
-                                        <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                                    </Button>
-                                </a>
-                            </div>
-                        </div>
-                        <div className="flex gap-3 mt-3">
-                            <Button
-                                variant="outline"
-                                onClick={() => openRegenerateModal("customerMessage")}
-                                disabled={regeneratingTarget !== null}
-                                className="flex-1 h-11 text-sm font-semibold rounded-xl border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 transition-all cursor-pointer"
-                            >
-                                {regeneratingTarget === "customerMessage" ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                    <>
-                                        <RefreshCw className="w-4 h-4 mr-2" />
-                                        Regenerate Message
-                                    </>
-                                )}
-                            </Button>
-                            <Button
-                                variant="outline"
-                                onClick={() => {
-                                    navigator.clipboard.writeText(generatedReview.customerMessage)
-                                    setCopiedMessage(true)
-                                    setTimeout(() => setCopiedMessage(false), 2000)
-                                }}
-                                className="flex-1 h-11 text-sm font-semibold rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50 transition-all cursor-pointer"
-                            >
-                                {copiedMessage ? (
-                                    <span className="flex items-center gap-2 text-green-600 animate-in zoom-in-50 duration-300">
-                                        <ClipboardCheck className="w-4 h-4" />
-                                        Copied!
-                                    </span>
-                                ) : (
-                                    <span className="flex items-center gap-2">
-                                        <Copy className="w-4 h-4" />
-                                        Copy Message
-                                    </span>
-                                )}
-                            </Button>
-                        </div>
+                        </Button>
+                        {smartLink && (
+                            <p className="text-xs text-green-700 mt-2 text-center font-medium">
+                                Link created and sent!
+                            </p>
+                        )}
                     </div>
 
                     <Button

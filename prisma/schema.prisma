@@ -19,19 +19,14 @@ model CustomerReview {
   orgType                  String       @default("Jewellery Store")
   attenderName             String?
   shopLocation             String?
-  orgDescription           String?
   customerName             String
   customerPhone            String?
   purchaseType             String       @default("")
-  purchaseFrequency        String       @default("")
-  purchaseDuration         String?
   satisfactionLevel        Int          @default(8)
   keyHighlights            String?
   improvementAreas         String?
   recommendationLikelihood Int          @default(9)
   events                   String?
-  shoppingMotivation       String?
-  priceSensitivity         String?
   brandLoyalty             String?
   emotionalConnection      String?
   reviewText               String       @db.Text

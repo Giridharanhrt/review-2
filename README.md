@@ -28,8 +28,6 @@ A Next.js application that uses Google's Gemini AI to generate personalized cust
 ### 1. Install Dependencies
 
 ```bash
-npm install
-# or
 pnpm install
 ```
 
@@ -48,14 +46,14 @@ Required variables:
 ### 3. Set Up Database
 
 ```bash
-npx prisma generate
-npx prisma db push
+pnpm prisma generate
+pnpm prisma db push
 ```
 
 ### 4. Run Development Server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
@@ -65,10 +63,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 1. **Step 1**: Enter business information
 2. **Step 2**: Enter detailed customer information including:
    - Customer name and phone
-   - What they purchased and how often
+   - What they purchased
    - Satisfaction ratings (1-10)
-   - Shopping motivation and preferences
-   - Price sensitivity and brand loyalty
+   - Brand loyalty and emotional connection
 3. **Step 3**: AI generates a personalized review based on all inputs
 4. **Share**: Click the WhatsApp button to share the review
 
