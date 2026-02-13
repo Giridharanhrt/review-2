@@ -23,8 +23,10 @@ export default async function ReviewRedirectPage({
         data: { clicks: { increment: 1 } },
     });
 
-    // productName field stores the placeId
-    const placeId = shortLink.productName || "ChIJha8EDVZYqDsRMq-49v_wem0";
+    const placeId = shortLink.productName || "";
+    if (!placeId.startsWith("ChI")) {
+        notFound();
+    }
 
     return (
         <ReviewRedirectClient
