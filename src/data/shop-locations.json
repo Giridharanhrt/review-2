@@ -70,5 +70,11 @@
     "label": "Kolkata - Park Street",
     "address": "15 Park Street, Kolkata",
     "placeId": "ChIJe6yzIVN2AjoRJLc4HQwbgi8"
+  },
+   {
+    "value": "gandhipuram_Coimbatore",
+    "label": "Coimbatore - Gandhipuram",
+    "address": "100 Feet Road, Dr Rajendra Prasad Rd, Gandhipuram , Coimbatore",
+    "placeId": "ChIJha8EDVZYqDsRMq-49v_wem0"
   }
 ]
