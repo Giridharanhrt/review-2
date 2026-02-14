@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { generateReview } from "@/lib/gemini";
 
-// Kalyaa Jewellers Shop Locations
+// Kalyan Jewellers Shop Locations
 const SHOP_LOCATIONS = [
     { value: "mumbai_mg_road", label: "Mumbai - M.G. Road" },
     { value: "mumbai_bandra", label: "Mumbai - Bandra West" },

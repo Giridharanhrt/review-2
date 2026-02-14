@@ -15,7 +15,7 @@ datasource db {
 
 model CustomerReview {
   id                       String       @id @default(uuid())
-  orgName                  String       @default("Kalyaa Jewellers")
+  orgName                  String       @default("Kalyan Jewellers")
   orgType                  String       @default("Jewellery Store")
   attenderName             String?
   shopLocation             String?
@@ -31,7 +31,6 @@ model CustomerReview {
   brandLoyalty             String?
   emotionalConnection      String?
   reviewText               String       @db.Text
-  customerMessage          String?      @db.Text
   createdAt                DateTime     @default(now())
   status                   ReviewStatus @default(PENDING)
 }

@@ -32,7 +32,7 @@ export default async function ReviewRedirectPage({
         <ReviewRedirectClient
             reviewText={shortLink.reviewText}
             customerName={shortLink.customerName}
-            shopName={shortLink.shopName || "Kalyaa Jewellers"}
+            shopName={shortLink.shopName || "Kalyan Jewellers"}
             placeId={placeId}
         />
     );

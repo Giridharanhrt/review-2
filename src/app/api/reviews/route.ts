@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         }
 
         const reviewData = {
-                orgName: orgName || "Kalyaa Jewellers",
+                orgName: orgName || "Kalyan Jewellers",
                 orgType: orgType || "Jewellery Store",
                 attenderName: attenderName || null,
                 shopLocation: shopLocation || null,

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -226,11 +226,10 @@ const SHOP_LOCATIONS: ShopLocation[] = shopLocations as ShopLocation[]
 
 // Step 1: Organization Schema
 const orgSchema = z.object({
-    orgName: z.string().default("Kalyaa Jewellers"),
+    orgName: z.string().default("Kalyan Jewellers"),
     orgType: z.string().default("Jewellery Store"),
     attenderName: z.string().min(2, "Attender name is required"),
     shopLocation: z.string().min(1, "Shop location is required"),
-    orgDescription: z.string().optional(),
 })
 
 // Step 2: Customer & Purchase Schema with multi-select options
@@ -547,7 +546,6 @@ interface FormData {
     orgType?: string;
     attenderName?: string;
     shopLocation?: string;
-    orgDescription?: string;
     customerName?: string;
     customerPhone?: string;
     customerFrom?: string;
@@ -561,6 +559,11 @@ interface FormData {
     brandLoyalty?: string;
     emotionalConnection?: string;
 }
+
+const STAFF_NAME_STORAGE_KEY = "kalyan_review_staff_name"
+const SHOP_LOCATION_STORAGE_KEY = "kalyan_review_shop_location"
+const DEFAULT_ORG_NAME = "Kalyan Jewellers"
+const DEFAULT_ORG_TYPE = "Jewellery Store"
 
 export function ReviewForm() {
     const [currentStep, setCurrentStep] = useState<Step>(1)
@@ -580,11 +583,10 @@ export function ReviewForm() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         resolver: zodResolver(orgSchema as any),
         defaultValues: {
-            orgName: "Kalyaa Jewellers",
-            orgType: "Jewellery Store",
+            orgName: DEFAULT_ORG_NAME,
+            orgType: DEFAULT_ORG_TYPE,
             attenderName: "",
             shopLocation: "",
-            orgDescription: "",
         },
     })
 
@@ -608,9 +610,33 @@ export function ReviewForm() {
     })
 
     const onOrgSubmit = (values: z.infer<typeof orgSchema>) => {
+        localStorage.setItem(STAFF_NAME_STORAGE_KEY, values.attenderName)
+        localStorage.setItem(SHOP_LOCATION_STORAGE_KEY, values.shopLocation)
         setFormData((prev: FormData) => ({ ...prev, ...values }))
         setCurrentStep(2)
     }
+
+    useEffect(() => {
+        const savedAttenderName = localStorage.getItem(STAFF_NAME_STORAGE_KEY)?.trim() || ""
+        const savedShopLocation = localStorage.getItem(SHOP_LOCATION_STORAGE_KEY)?.trim() || ""
+        if (!savedAttenderName || !savedShopLocation) return
+
+        orgForm.reset({
+            orgName: DEFAULT_ORG_NAME,
+            orgType: DEFAULT_ORG_TYPE,
+            attenderName: savedAttenderName,
+            shopLocation: savedShopLocation,
+        })
+
+        setFormData((prev: FormData) => ({
+            ...prev,
+            orgName: DEFAULT_ORG_NAME,
+            orgType: DEFAULT_ORG_TYPE,
+            attenderName: savedAttenderName,
+            shopLocation: savedShopLocation,
+        }))
+        setCurrentStep(2)
+    }, [orgForm])
 
     const onCustomerSubmit = async (values: z.infer<typeof customerSchema>) => {
         const fullData = { ...formData, ...values }
@@ -713,12 +739,30 @@ export function ReviewForm() {
     }
 
     const resetForm = () => {
-        setCurrentStep(1)
+        const savedAttenderName = localStorage.getItem(STAFF_NAME_STORAGE_KEY)?.trim() || ""
+        const savedShopLocation = localStorage.getItem(SHOP_LOCATION_STORAGE_KEY)?.trim() || ""
+        const hasSavedBusinessProfile = Boolean(savedAttenderName && savedShopLocation)
+
+        setCurrentStep(hasSavedBusinessProfile ? 2 : 1)
         setGeneratedReview(null)
-        setFormData({})
+        setFormData(
+            hasSavedBusinessProfile
+                ? {
+                    orgName: DEFAULT_ORG_NAME,
+                    orgType: DEFAULT_ORG_TYPE,
+                    attenderName: savedAttenderName,
+                    shopLocation: savedShopLocation,
+                }
+                : {}
+        )
         setSmartLink(null)
         setSavedReviewId(null)
-        orgForm.reset()
+        orgForm.reset({
+            orgName: DEFAULT_ORG_NAME,
+            orgType: DEFAULT_ORG_TYPE,
+            attenderName: savedAttenderName,
+            shopLocation: savedShopLocation,
+        })
         customerForm.reset()
     }
 
@@ -735,7 +779,7 @@ export function ReviewForm() {
                 body: JSON.stringify({
                     reviewText: generatedReview.review,
                     customerName: formData.customerName || "Customer",
-                    shopName: "Kalyaa Jewellers",
+                    shopName: "Kalyan Jewellers",
                     placeId: placeTarget,
                 }),
             })
@@ -748,7 +792,7 @@ export function ReviewForm() {
             setSmartLink(data.url)
 
             // Build WhatsApp message with smart link
-            const whatsappMessage = `Hi ${formData.customerName || ""}! Thank you for visiting Kalyaa Jewellers! We'd love a quick Google review from you. Tap here - your review is ready, just paste it!\n\n${data.url}`
+            const whatsappMessage = `Hi ${formData.customerName || ""}! Thank you for visiting Kalyan Jewellers! We'd love a quick Google review from you. Tap here - your review is ready, just paste it!\n\n${data.url}`
             const whatsappPhone = (formData.customerPhone || "").replace(/\D/g, "")
             const whatsappUrl = whatsappPhone
                 ? `https://api.whatsapp.com/send?phone=${whatsappPhone}&text=${encodeURIComponent(whatsappMessage)}`
@@ -782,7 +826,7 @@ export function ReviewForm() {
                                 </div>
                                 <div>
                                     <p className="text-xs text-violet-600 font-medium uppercase tracking-wider">Business</p>
-                                    <h3 className="text-lg font-bold text-gray-800">Kalyaa Jewellers</h3>
+                                    <h3 className="text-lg font-bold text-gray-800">Kalyan Jewellers</h3>
                                     <p className="text-xs text-gray-500">Premium Jewellery Store</p>
                                 </div>
                             </div>

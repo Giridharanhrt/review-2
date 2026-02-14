@@ -36,7 +36,7 @@ export async function POST(req: Request) {
                 shortCode,
                 reviewText,
                 customerName,
-                shopName: shopName || "Kalyaa Jewellers",
+                shopName: shopName || "Kalyan Jewellers",
                 productName: resolvedPlaceId,
             },
         });
