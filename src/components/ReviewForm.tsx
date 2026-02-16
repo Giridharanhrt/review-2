@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { BrandLogo } from "@/components/BrandLogo"
 import shopLocations from "@/data/shop-locations.json"
 import { 
     Building2, 
@@ -821,8 +822,8 @@ export function ReviewForm() {
                         {/* Fixed Business Name */}
                         <div className="px-5 py-4 bg-gradient-to-r from-violet-50 to-fuchsia-50 border-b border-violet-100">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-md">
-                                    <Building2 className="w-6 h-6 text-white" />
+                                <div className="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-violet-100">
+                                    <BrandLogo size={40} className="rounded-lg" />
                                 </div>
                                 <div>
                                     <p className="text-xs text-violet-600 font-medium uppercase tracking-wider">Business</p>
@@ -953,21 +954,13 @@ export function ReviewForm() {
                         </div>
                         <div>
                             <h2 className="text-base font-bold text-gray-800">Customer Details</h2>
-                            <p className="text-[11px] text-gray-500">Quick selections - no typing needed!</p>
                         </div>
                     </div>
-                    <PremiumBadge />
+                    {/* <PremiumBadge /> */}
                 </div>
                 
                 <Form {...customerForm}>
                     <form onSubmit={customerForm.handleSubmit(onCustomerSubmit)} className="custom-scrollbar" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'auto' }}>
-                        
-                        <SectionHeader 
-                            icon={User} 
-                            title="Customer Information" 
-                            subtitle="Basic details about the customer"
-                        />
-                        
                         <div className="px-5 py-4 space-y-4">
                             <FormField
                                 control={customerForm.control}
@@ -1308,7 +1301,7 @@ export function ReviewForm() {
                 </Dialog>
 
                 {/* Header */}
-                <div className="px-5 py-4 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
+                {/* <div className="px-5 py-4 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
                             <Bot className="w-5 h-5 text-white" />
@@ -1318,7 +1311,7 @@ export function ReviewForm() {
                             <p className="text-[11px] text-white/80">Auto-saved to database</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="p-5 space-y-5">
                     {/* Generated Review */}
@@ -1338,8 +1331,8 @@ export function ReviewForm() {
                                 </div>
                             )}
                             <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/30">
-                                    <Sparkles className="w-5 h-5 text-white" />
+                                <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/30 border border-violet-100">
+                                    <BrandLogo size={32} className="rounded-md" />
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
@@ -1349,7 +1342,7 @@ export function ReviewForm() {
                             </div>
                         </div>
                         <div className="flex gap-3 mt-3">
-                            <Button
+                            {/* <Button
                                 variant="outline"
                                 onClick={() => openRegenerateModal()}
                                 disabled={regeneratingTarget !== null}
@@ -1363,7 +1356,7 @@ export function ReviewForm() {
                                         Regenerate
                                     </>
                                 )}
-                            </Button>
+                            </Button> */}
                             <Button
                                 variant="outline"
                                 onClick={() => {

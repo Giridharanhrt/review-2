@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export default function ReviewRedirectClient({
     reviewText,
@@ -102,15 +103,15 @@ export default function ReviewRedirectClient({
                         width: "72px",
                         height: "72px",
                         borderRadius: "20px",
-                        background: "linear-gradient(135deg, #8b5cf6, #d946ef)",
+                        background: "white",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         margin: "0 auto 24px",
-                        fontSize: "32px",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
                     }}
                 >
-                    {copied ? "\u2705" : "\u2728"}
+                    <BrandLogo size={56} priority className="rounded-[14px]" />
                 </div>
 
                 <h1

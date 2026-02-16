@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Review Collector - Collect Customer Reviews via WhatsApp",
   description: "Professional review collection system. Send WhatsApp review requests to customers and grow your business reputation.",
+  icons: {
+    icon: "/kalyan-logo.png",
+    apple: "/kalyan-logo.png",
+    shortcut: "/kalyan-logo.png",
+  },
 };
 
 export default function RootLayout({

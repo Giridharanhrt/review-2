@@ -1,4 +1,5 @@
 import { ReviewForm } from "@/components/ReviewForm";
+import { BrandLogo } from "@/components/BrandLogo";
 import { shopConfig } from "@/config/shop";
 import { Sparkles, Zap } from "lucide-react";
 
@@ -30,30 +31,18 @@ export default function Home() {
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <div className="relative">
-            <div className="w-14 h-14 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-violet-500/40">
-              <Sparkles className="w-7 h-7 text-white" />
-            </div>
-            <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-slate-900 flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+            <div className="w-14 h-14 bg-white rounded-2xl p-1.5 flex items-center justify-center shadow-2xl shadow-black/30">
+              <BrandLogo size={44} priority className="rounded-xl" />
             </div>
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h1 className="text-base font-bold text-white tracking-tight">{shopConfig.name}</h1>
-              <div className="flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-violet-500/30 to-fuchsia-500/30 rounded-full border border-violet-400/30">
-                <Sparkles className="w-3 h-3 text-violet-300" />
-                <span className="text-[10px] font-bold text-violet-200 uppercase tracking-wider">Pro</span>
-              </div>
             </div>
             <div className="flex items-center gap-2 mt-1">
               <div className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-[11px] text-green-400 font-medium">Generator Active</span>
-              </div>
-              <span className="text-gray-600">|</span>
-              <div className="flex items-center gap-1">
-                <Zap className="w-3 h-3 text-amber-400" />
-                <span className="text-[11px] text-amber-400 font-medium">Fast & Reliable</span>
               </div>
             </div>
           </div>

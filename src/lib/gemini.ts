@@ -129,12 +129,13 @@ STRICT RULES:
 2. First person as ${input.customerName}. Sound like a real human, not a copywriter.
 3. Mention ${input.orgName} by name naturally.
 4. Include at least one concrete detail (service behavior, design choice, feeling, or buying moment).
-5. Do NOT use any markdown, bullet points, stars, or formatting.
-6. Do NOT use quotation marks around the review.
-7. Do NOT add a greeting or sign-off.
-8. Avoid generic filler phrases like "highly recommended" unless supported by details.
-9. No fake claims, no discounts/pricing promises, no exaggerated hype words.
-10. Write it like someone typing a quick Google review on their phone — natural, genuine, slightly imperfect.
+5. Include a natural price/value mention when it fits (e.g., fair price, affordable, worth the design/quality, good value for money).
+6. Do NOT use any markdown, bullet points, stars, or formatting.
+7. Do NOT use quotation marks around the review.
+8. Do NOT add a greeting or sign-off.
+9. Avoid generic filler phrases like "highly recommended" unless supported by details.
+10. No fake claims, no discount offers or hard pricing promises; only personal value perception about pricing.
+11. Write it like someone typing a quick Google review on their phone — natural, genuine, slightly imperfect.
 ${improvementHint ? `\nIMPORTANT ADJUSTMENT: "${improvementHint}"\n` : ""}
 Generate the review now (plain text, 4 sentences only):`;
 }
