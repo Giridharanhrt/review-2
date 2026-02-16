@@ -230,6 +230,7 @@ const orgSchema = z.object({
     orgName: z.string().default("Kalyan Jewellers"),
     orgType: z.string().default("Jewellery Store"),
     attenderName: z.string().min(2, "Attender name is required"),
+    attenderId: z.string().min(1, "Attender ID is required"),
     shopLocation: z.string().min(1, "Shop location is required"),
 })
 
@@ -241,7 +242,7 @@ const customerSchema = z.object({
     purchaseType: z.string().min(2, "What was purchased is required"),
     satisfactionLevel: z.string().min(1).max(10),
     keyHighlights: z.string().optional(),
-    improvementAreas: z.string().optional(),
+    improvementAreas: z.array(z.string()).default([]),
     recommendationLikelihood: z.string().min(1).max(10),
     // Event field with others option
     events: z.array(z.string()).default([]),
@@ -269,20 +270,31 @@ const EVENT_OPTIONS = [
     { value: "other", label: "Others", icon: "📝", color: "bg-gray-100 border-gray-300 text-gray-700" },
 ]
 
+const IMPROVEMENT_AREA_OPTIONS = [
+    { value: "waiting-time", label: "Waiting time was a bit long", icon: "⏳" },
+    { value: "billing-speed", label: "Billing process could be faster", icon: "🧾" },
+    { value: "design-variety", label: "Need more design variety in some categories", icon: "📿" },
+    { value: "size-availability", label: "Preferred size/design was not immediately available", icon: "📏" },
+    { value: "price-clarity", label: "Making charges and pricing could be explained more clearly", icon: "💬" },
+    { value: "peak-hour-support", label: "More staff support during rush hours would help", icon: "👥" },
+    { value: "delivery-followup", label: "Delivery/update follow-up can be more proactive", icon: "📦" },
+    { value: "exchange-guidance", label: "Exchange/return policy explanation can be clearer", icon: "🔁" },
+]
+
 const BRAND_LOYALTY_OPTIONS = [
     { value: "new", label: "New Customer", description: "First purchase", icon: "🆕" },
     { value: "occasional", label: "Occasional", description: "Buy sometimes", icon: "🌟" },
     { value: "regular", label: "Regular", description: "Consistent buyer", icon: "🔄" },
     { value: "strong", label: "Strong Advocate", description: "Recommends to others", icon: "📢" },
-    { value: "loyal", label: "Lifelong Loyal", description: "Brand is part of them", icon: "💎" },
+    // { value: "loyal", label: "Lifelong Loyal", description: "Brand is part of them", icon: "💎" },
 ]
 
 const EMOTIONAL_CONNECTION_OPTIONS = [
     { value: "very_strong", label: "Very Connected", description: "Brand is identity", icon: "🔥" },
-    { value: "strong", label: "Connected", description: "Positive feelings", icon: "💖" },
+    // { value: "strong", label: "Connected", description: "Positive feelings", icon: "💖" },
     { value: "moderate", label: "Moderate", description: "Generally positive", icon: "🙂" },
     { value: "neutral", label: "Neutral", description: "No strong feelings", icon: "😐" },
-    { value: "weak", label: "Detached", description: "Little connection", icon: "🌊" },
+    // { value: "weak", label: "Detached", description: "Little connection", icon: "🌊" },
 ]
 
 function StepIndicator({ currentStep }: { currentStep: Step }) {
@@ -490,6 +502,89 @@ function MultiSelectEventsWithOther({
     )
 }
 
+function MultiSelectImprovementAreas({
+    value,
+    onChange,
+}: {
+    value: string[];
+    onChange: (value: string[]) => void;
+}) {
+    const [isOpen, setIsOpen] = useState(false)
+
+    const toggleOption = (optionLabel: string) => {
+        if (value.includes(optionLabel)) {
+            onChange(value.filter((item) => item !== optionLabel))
+        } else {
+            onChange([...value, optionLabel])
+        }
+    }
+
+    return (
+        <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
+            <button
+                type="button"
+                onClick={() => setIsOpen((prev) => !prev)}
+                className="w-full px-3.5 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+            >
+                <div className="text-left">
+                    <p className="text-xs font-semibold text-gray-700">Choose all that apply</p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">
+                        {value.length > 0 ? `${value.length} selected` : "No items selected"}
+                    </p>
+                </div>
+                <ChevronDown
+                    className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                />
+            </button>
+
+            {value.length > 0 && !isOpen && (
+                <div className="px-3.5 py-2.5 border-t border-gray-100 flex flex-wrap gap-1.5">
+                    {value.map((item) => (
+                        <span
+                            key={item}
+                            className="inline-flex items-center px-2 py-1 rounded-md text-[11px] bg-amber-100 text-amber-800"
+                        >
+                            {item}
+                        </span>
+                    ))}
+                </div>
+            )}
+
+            {isOpen && (
+                <div className="p-3 border-t border-gray-100 grid grid-cols-1 gap-2">
+                    {IMPROVEMENT_AREA_OPTIONS.map((option) => {
+                        const isSelected = value.includes(option.label)
+                        return (
+                            <button
+                                key={option.value}
+                                type="button"
+                                onClick={() => toggleOption(option.label)}
+                                className={`
+                                    relative p-3 rounded-xl border-2 transition-all duration-200 flex items-center gap-3 text-left
+                                    ${isSelected
+                                        ? "bg-amber-50 border-amber-400 shadow-sm"
+                                        : "bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                                    }
+                                `}
+                            >
+                                <span className="text-xl">{option.icon}</span>
+                                <span className={`text-sm ${isSelected ? "text-amber-800 font-medium" : "text-gray-700"}`}>
+                                    {option.label}
+                                </span>
+                                {isSelected && (
+                                    <div className="ml-auto w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center">
+                                        <Check className="w-3 h-3 text-white" />
+                                    </div>
+                                )}
+                            </button>
+                        )
+                    })}
+                </div>
+            )}
+        </div>
+    )
+}
+
 // Single-select card component
 function SelectCard({ 
     options, 
@@ -546,6 +641,7 @@ interface FormData {
     orgName?: string;
     orgType?: string;
     attenderName?: string;
+    attenderId?: string;
     shopLocation?: string;
     customerName?: string;
     customerPhone?: string;
@@ -562,6 +658,7 @@ interface FormData {
 }
 
 const STAFF_NAME_STORAGE_KEY = "kalyan_review_staff_name"
+const STAFF_ID_STORAGE_KEY = "kalyan_review_staff_id"
 const SHOP_LOCATION_STORAGE_KEY = "kalyan_review_shop_location"
 const DEFAULT_ORG_NAME = "Kalyan Jewellers"
 const DEFAULT_ORG_TYPE = "Jewellery Store"
@@ -587,6 +684,7 @@ export function ReviewForm() {
             orgName: DEFAULT_ORG_NAME,
             orgType: DEFAULT_ORG_TYPE,
             attenderName: "",
+            attenderId: "",
             shopLocation: "",
         },
     })
@@ -601,7 +699,7 @@ export function ReviewForm() {
             purchaseType: "",
             satisfactionLevel: "8",
             keyHighlights: "",
-            improvementAreas: "",
+            improvementAreas: [],
             recommendationLikelihood: "9",
             events: [],
             eventOther: "",
@@ -612,6 +710,7 @@ export function ReviewForm() {
 
     const onOrgSubmit = (values: z.infer<typeof orgSchema>) => {
         localStorage.setItem(STAFF_NAME_STORAGE_KEY, values.attenderName)
+        localStorage.setItem(STAFF_ID_STORAGE_KEY, values.attenderId)
         localStorage.setItem(SHOP_LOCATION_STORAGE_KEY, values.shopLocation)
         setFormData((prev: FormData) => ({ ...prev, ...values }))
         setCurrentStep(2)
@@ -619,13 +718,15 @@ export function ReviewForm() {
 
     useEffect(() => {
         const savedAttenderName = localStorage.getItem(STAFF_NAME_STORAGE_KEY)?.trim() || ""
+        const savedAttenderId = localStorage.getItem(STAFF_ID_STORAGE_KEY)?.trim() || ""
         const savedShopLocation = localStorage.getItem(SHOP_LOCATION_STORAGE_KEY)?.trim() || ""
-        if (!savedAttenderName || !savedShopLocation) return
+        if (!savedAttenderName || !savedAttenderId || !savedShopLocation) return
 
         orgForm.reset({
             orgName: DEFAULT_ORG_NAME,
             orgType: DEFAULT_ORG_TYPE,
             attenderName: savedAttenderName,
+            attenderId: savedAttenderId,
             shopLocation: savedShopLocation,
         })
 
@@ -634,13 +735,18 @@ export function ReviewForm() {
             orgName: DEFAULT_ORG_NAME,
             orgType: DEFAULT_ORG_TYPE,
             attenderName: savedAttenderName,
+            attenderId: savedAttenderId,
             shopLocation: savedShopLocation,
         }))
         setCurrentStep(2)
     }, [orgForm])
 
     const onCustomerSubmit = async (values: z.infer<typeof customerSchema>) => {
-        const fullData = { ...formData, ...values }
+        const fullData = {
+            ...formData,
+            ...values,
+            improvementAreas: values.improvementAreas.length > 0 ? values.improvementAreas.join(", ") : "",
+        }
         setFormData(fullData)
         setIsGenerating(true)
 
@@ -741,8 +847,9 @@ export function ReviewForm() {
 
     const resetForm = () => {
         const savedAttenderName = localStorage.getItem(STAFF_NAME_STORAGE_KEY)?.trim() || ""
+        const savedAttenderId = localStorage.getItem(STAFF_ID_STORAGE_KEY)?.trim() || ""
         const savedShopLocation = localStorage.getItem(SHOP_LOCATION_STORAGE_KEY)?.trim() || ""
-        const hasSavedBusinessProfile = Boolean(savedAttenderName && savedShopLocation)
+        const hasSavedBusinessProfile = Boolean(savedAttenderName && savedAttenderId && savedShopLocation)
 
         setCurrentStep(hasSavedBusinessProfile ? 2 : 1)
         setGeneratedReview(null)
@@ -752,6 +859,7 @@ export function ReviewForm() {
                     orgName: DEFAULT_ORG_NAME,
                     orgType: DEFAULT_ORG_TYPE,
                     attenderName: savedAttenderName,
+                    attenderId: savedAttenderId,
                     shopLocation: savedShopLocation,
                 }
                 : {}
@@ -762,6 +870,7 @@ export function ReviewForm() {
             orgName: DEFAULT_ORG_NAME,
             orgType: DEFAULT_ORG_TYPE,
             attenderName: savedAttenderName,
+            attenderId: savedAttenderId,
             shopLocation: savedShopLocation,
         })
         customerForm.reset()
@@ -847,6 +956,27 @@ export function ReviewForm() {
                                             placeholder="Enter your name (salesperson/attender)" 
                                             className="h-11 text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 transition-all"
                                             {...field} 
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="text-xs text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={orgForm.control}
+                            name="attenderId"
+                            render={({ field }) => (
+                                <FormItem className="px-5 py-4 space-y-2 hover:bg-gray-50/50 transition-colors">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <ClipboardCheck className="w-4 h-4 text-violet-500" />
+                                        <FormLabel className="text-sm font-semibold text-gray-700">Attender ID *</FormLabel>
+                                    </div>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Enter attender ID (e.g., KJ-1023)"
+                                            className="h-11 text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 transition-all"
+                                            {...field}
                                         />
                                     </FormControl>
                                     <FormMessage className="text-xs text-red-500" />
@@ -1152,10 +1282,9 @@ export function ReviewForm() {
                                             <FormLabel className="text-sm font-semibold text-gray-700">Areas for Improvement <span className="text-gray-400 font-normal">(Optional)</span></FormLabel>
                                         </div>
                                         <FormControl>
-                                            <Textarea
-                                                placeholder="Any constructive feedback? e.g., waiting time, pricing..."
-                                                className="min-h-[80px] text-sm border-gray-200 rounded-xl focus:border-amber-500 focus:ring-amber-500/20 resize-none transition-all"
-                                                {...field}
+                                            <MultiSelectImprovementAreas
+                                                value={field.value}
+                                                onChange={field.onChange}
                                             />
                                         </FormControl>
                                         <FormMessage className="text-xs text-red-500" />
@@ -1178,7 +1307,7 @@ export function ReviewForm() {
                                     <FormItem className="space-y-3">
                                         <div className="flex items-center gap-2">
                                             <Award className="w-4 h-4 text-rose-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">Brand Loyalty Level</FormLabel>
+                                            <FormLabel className="text-sm font-semibold text-gray-700">Customer Type</FormLabel>
                                         </div>
                                         <FormControl>
                                             <SelectCard
@@ -1200,7 +1329,7 @@ export function ReviewForm() {
                                     <FormItem className="space-y-3">
                                         <div className="flex items-center gap-2">
                                             <Heart className="w-4 h-4 text-rose-500" />
-                                            <FormLabel className="text-sm font-semibold text-gray-700">Emotional Connection</FormLabel>
+                                            <FormLabel className="text-sm font-semibold text-gray-700">Staff Behavior</FormLabel>
                                         </div>
                                         <FormControl>
                                             <SelectCard
@@ -1342,7 +1471,7 @@ export function ReviewForm() {
                             </div>
                         </div>
                         <div className="flex gap-3 mt-3">
-                            {/* <Button
+                            <Button
                                 variant="outline"
                                 onClick={() => openRegenerateModal()}
                                 disabled={regeneratingTarget !== null}
@@ -1356,7 +1485,7 @@ export function ReviewForm() {
                                         Regenerate
                                     </>
                                 )}
-                            </Button> */}
+                            </Button>
                             <Button
                                 variant="outline"
                                 onClick={() => {

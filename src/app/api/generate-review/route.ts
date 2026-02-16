@@ -25,6 +25,7 @@ export async function POST(req: Request) {
             orgName,
             orgType,
             attenderName,
+            attenderId,
             shopLocation,
             customerName,
             customerPhone,
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
             improvementHint,
         } = body;
 
-        if (!orgName || !orgType || !customerName || !purchaseType) {
+        if (!orgName || !orgType || !attenderName || !attenderId || !customerName || !purchaseType) {
             return NextResponse.json(
                 { error: "Missing required fields" },
                 { status: 400 }
@@ -66,6 +67,7 @@ export async function POST(req: Request) {
                 orgName,
                 orgType,
                 attenderName,
+                attenderId,
                 shopLocation: locationLabel,
                 customerName,
                 customerPhone,

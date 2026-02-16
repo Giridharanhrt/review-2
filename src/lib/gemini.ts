@@ -4,6 +4,7 @@ interface ReviewGenerationInput {
   orgName: string;
   orgType: string;
   attenderName?: string;
+  attenderId?: string;
   shopLocation?: string;
 
   customerName: string;
@@ -32,6 +33,21 @@ interface ReviewGenerationResult {
 function sentenceCount(text: string): number {
   const matches = text.match(/[^.!?]+[.!?]+/g);
   return matches ? matches.length : 0;
+}
+
+function getSentences(text: string): string[] {
+  const matches = text.match(/[^.!?]+[.!?]+/g);
+  return matches ? matches.map((s) => s.trim()) : [];
+}
+
+function hasCustomerFromInMiddle(text: string, customerFrom?: string): boolean {
+  const from = customerFrom?.trim().toLowerCase();
+  if (!from) return true;
+
+  const sentences = getSentences(text);
+  if (sentences.length < 3) return false;
+
+  return [1, 2].some((idx) => (sentences[idx] || "").toLowerCase().includes(from));
 }
 
 function cleanReviewText(text: string): string {
@@ -76,12 +92,21 @@ export async function generateReview(
     const result = await model.generateContent(prompt);
     let review = cleanReviewText((await result.response).text());
 
-    // Repair pass when model misses exact sentence format.
-    if (sentenceCount(review) !== 4) {
+    // Repair pass when model misses exact sentence format or omits customer "from" in sentence 2/3.
+    let attempts = 0;
+    while (
+      attempts < 2 &&
+      (sentenceCount(review) !== 4 || !hasCustomerFromInMiddle(review, input.customerFrom))
+    ) {
+      const fromRule = input.customerFrom?.trim()
+        ? ` Include the exact location text "${input.customerFrom}" in sentence 2 or 3 only (not sentence 1).`
+        : "";
+
       const rewrite = await model.generateContent(
-        `Rewrite this as EXACTLY 4 short natural sentences. Keep meaning same, plain text only:\n\n${review}`
+        `Rewrite this as EXACTLY 4 short natural sentences. Keep meaning same, plain text only.${fromRule}\n\n${review}`
       );
       review = cleanReviewText((await rewrite.response).text());
+      attempts += 1;
     }
 
     return { success: true, review };
@@ -103,6 +128,7 @@ BUSINESS:
 - Name: ${input.orgName}
 - Type: ${input.orgType}
 ${input.attenderName ? `- Served by: ${input.attenderName}` : ""}
+${input.attenderId ? `- Attender ID: ${input.attenderId}` : ""}
 ${input.shopLocation ? `- Location: ${input.shopLocation}` : ""}
 
 CUSTOMER:
@@ -137,6 +163,8 @@ STRICT RULES:
 10. No fake claims, no discount offers or hard pricing promises; only personal value perception about pricing.
 11. Write it like someone typing a quick Google review on their phone — natural, genuine, slightly imperfect.
 12. Do NOT include suggestions or referrals to others (e.g., "I recommend", "you should visit", "check them out").
+13. Mention where I am from naturally in sentence 2 or 3 only (not sentence 1), and keep it blended into the review flow.
+14. ${input.customerFrom ? `You MUST include this exact from/location text once: "${input.customerFrom}".` : "If from/location is available, include it exactly once."}
 ${improvementHint ? `\nIMPORTANT ADJUSTMENT: "${improvementHint}"\n` : ""}
 Generate the review now (plain text, 4 sentences only):`;
 }
