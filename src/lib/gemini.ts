@@ -136,6 +136,7 @@ STRICT RULES:
 9. Avoid generic filler phrases like "highly recommended" unless supported by details.
 10. No fake claims, no discount offers or hard pricing promises; only personal value perception about pricing.
 11. Write it like someone typing a quick Google review on their phone — natural, genuine, slightly imperfect.
+12. Do NOT include suggestions or referrals to others (e.g., "I recommend", "you should visit", "check them out").
 ${improvementHint ? `\nIMPORTANT ADJUSTMENT: "${improvementHint}"\n` : ""}
 Generate the review now (plain text, 4 sentences only):`;
 }
