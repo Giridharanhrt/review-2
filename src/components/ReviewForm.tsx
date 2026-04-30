@@ -142,7 +142,7 @@ function PhoneInput({
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex items-center gap-1.5 px-3 border-r border-gray-200 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer flex-shrink-0"
+                    className="flex items-center gap-1.5 px-3 border-r border-gray-200 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer shrink-0"
                 >
                     <span className="text-xl leading-none">{selectedCountry.flag}</span>
                     <span className="text-xs font-semibold text-gray-600">{selectedCountry.code}</span>
@@ -176,7 +176,7 @@ function PhoneInput({
                             />
                         </div>
                         {/* Country list */}
-                        <div className="max-h-[280px] overflow-y-auto custom-scrollbar">
+                        <div className="max-h-70 overflow-y-auto custom-scrollbar">
                             {filteredCountries.map((country) => {
                                 const isSelected = selectedCountry.code === country.code
                                 return (
@@ -196,11 +196,11 @@ function PhoneInput({
                                                 {country.name}
                                             </p>
                                         </div>
-                                        <span className={`text-sm font-semibold flex-shrink-0 ${isSelected ? 'text-blue-600' : 'text-gray-500'}`}>
+                                        <span className={`text-sm font-semibold shrink-0 ${isSelected ? 'text-blue-600' : 'text-gray-500'}`}>
                                             {country.code}
                                         </span>
                                         {isSelected && (
-                                            <Check className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                                            <Check className="w-4 h-4 text-blue-600 shrink-0" />
                                         )}
                                     </button>
                                 )
@@ -283,17 +283,17 @@ const IMPROVEMENT_AREA_OPTIONS = [
 
 const BRAND_LOYALTY_OPTIONS = [
     { value: "new", label: "New Customer", description: "First purchase", icon: "🆕" },
-    { value: "occasional", label: "Occasional", description: "Buy sometimes", icon: "🌟" },
+    // { value: "occasional", label: "Occasional", description: "Buy sometimes", icon: "🌟" },
     { value: "regular", label: "Regular", description: "Consistent buyer", icon: "🔄" },
-    { value: "strong", label: "Strong Advocate", description: "Recommends to others", icon: "📢" },
+    // { value: "strong", label: "Strong Advocate", description: "Recommends to others", icon: "📢" },
     // { value: "loyal", label: "Lifelong Loyal", description: "Brand is part of them", icon: "💎" },
 ]
 
 const EMOTIONAL_CONNECTION_OPTIONS = [
-    { value: "very_strong", label: "Very Connected", description: "Brand is identity", icon: "🔥" },
+    { value: "Professional_Courteous_Helpful", label: "Professional, Courteous, & Helpful", description: "Brand is identity", icon: "🔥" },
     // { value: "strong", label: "Connected", description: "Positive feelings", icon: "💖" },
     { value: "moderate", label: "Moderate", description: "Generally positive", icon: "🙂" },
-    { value: "neutral", label: "Neutral", description: "No strong feelings", icon: "😐" },
+    // { value: "neutral", label: "Neutral", description: "No strong feelings", icon: "😐" },
     // { value: "weak", label: "Detached", description: "Little connection", icon: "🌊" },
 ]
 
@@ -305,12 +305,12 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
     ]
     
     return (
-        <div className="px-6 py-6 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 border-b border-indigo-100">
+        <div className="px-6 py-6 bg-linear-to-r from-indigo-50 via-purple-50 to-pink-50 border-b border-indigo-100">
             <div className="flex items-center justify-between relative">
                 {/* Progress Line */}
                 <div className="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 rounded-full -translate-y-1/2 mx-8" />
                 <div 
-                    className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full -translate-y-1/2 mx-8 transition-all duration-500"
+                    className="absolute top-1/2 left-0 h-1 bg-linear-to-r from-violet-500 to-fuchsia-500 rounded-full -translate-y-1/2 mx-8 transition-all duration-500"
                     style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
                 />
                 
@@ -325,9 +325,9 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
                             <div className={`
                                 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-lg
                                 ${isActive 
-                                    ? 'bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white shadow-violet-500/40 scale-110' 
+                                    ? 'bg-linear-to-br from-violet-500 to-fuchsia-600 text-white shadow-violet-500/40 scale-110' 
                                     : isCompleted
-                                        ? 'bg-gradient-to-br from-green-400 to-emerald-500 text-white shadow-green-500/40'
+                                        ? 'bg-linear-to-br from-green-400 to-emerald-500 text-white shadow-green-500/40'
                                         : 'bg-white text-gray-400 shadow-gray-200'
                                 }
                             `}>
@@ -353,7 +353,7 @@ function StepIndicator({ currentStep }: { currentStep: Step }) {
 
 function PremiumBadge() {
     return (
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-violet-100 to-fuchsia-100 rounded-full border border-violet-200">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-linear-to-r from-violet-100 to-fuchsia-100 rounded-full border border-violet-200">
             <Sparkle className="w-3.5 h-3.5 text-violet-600" />
             <span className="text-[10px] font-bold text-violet-700 uppercase tracking-wider">Premium</span>
         </div>
@@ -362,9 +362,9 @@ function PremiumBadge() {
 
 function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementType; title: string; subtitle?: string }) {
     return (
-        <div className="px-5 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+        <div className="px-5 py-4 bg-linear-to-r from-gray-50 to-white border-b border-gray-100">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-linear-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center shadow-sm">
                     <Icon className="w-5 h-5 text-violet-600" />
                 </div>
                 <div>
@@ -390,14 +390,14 @@ function RatingSlider({
     const numValue = parseInt(value) || 5
     
     return (
-        <div className="space-y-3 p-4 bg-gradient-to-br from-gray-50/50 to-white rounded-xl border border-gray-100">
+        <div className="space-y-3 p-4 bg-linear-to-br from-gray-50/50 to-white rounded-xl border border-gray-100">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     {Icon && <Icon className="w-4 h-4 text-violet-500" />}
                     <span className="text-sm font-medium text-gray-700">{label}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                    <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+                    <span className="text-2xl font-bold bg-linear-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
                         {numValue}
                     </span>
                     <span className="text-xs text-gray-400 font-medium">/10</span>
@@ -609,7 +609,7 @@ function SelectCard({
                         className={`
                             relative p-3 rounded-xl border-2 transition-all duration-200 flex items-center gap-3
                             ${isSelected 
-                                ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-500 shadow-md' 
+                                ? 'bg-linear-to-r from-violet-50 to-fuchsia-50 border-violet-500 shadow-md' 
                                 : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                             }
                         `}
@@ -758,7 +758,8 @@ export function ReviewForm() {
             })
 
             if (!response.ok) {
-                throw new Error("Failed to generate review")
+                const errorBody = await response.json().catch(() => ({}))
+                throw new Error(errorBody.error || "Failed to generate review")
             }
 
             const data = await response.json()
@@ -813,7 +814,10 @@ export function ReviewForm() {
                 }),
             })
 
-            if (!response.ok) throw new Error("Failed to regenerate")
+            if (!response.ok) {
+                const errorBody = await response.json().catch(() => ({}))
+                throw new Error(errorBody.error || "Failed to regenerate")
+            }
 
             const data = await response.json()
             setGeneratedReview({ review: data.review })
@@ -929,7 +933,7 @@ export function ReviewForm() {
                 <Form {...orgForm}>
                     <form onSubmit={orgForm.handleSubmit(onOrgSubmit)} className="divide-y divide-gray-100">
                         {/* Fixed Business Name */}
-                        <div className="px-5 py-4 bg-gradient-to-r from-violet-50 to-fuchsia-50 border-b border-violet-100">
+                        <div className="px-5 py-4 bg-linear-to-r from-violet-50 to-fuchsia-50 border-b border-violet-100">
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-violet-100">
                                     <BrandLogo size={40} className="rounded-lg" />
@@ -1011,7 +1015,7 @@ export function ReviewForm() {
                                             />
                                         </div>
                                         <FormControl>
-                                            <div className="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto custom-scrollbar">
+                                            <div className="grid grid-cols-1 gap-2 max-h-50 overflow-y-auto custom-scrollbar">
                                                 {filteredLocations.map((location) => {
                                                     const isSelected = field.value === location.value
                                                     return (
@@ -1022,7 +1026,7 @@ export function ReviewForm() {
                                                             className={`
                                                                 relative p-3 rounded-xl border-2 transition-all duration-200 text-left cursor-pointer
                                                                 ${isSelected
-                                                                    ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-500 shadow-md'
+                                                                    ? 'bg-linear-to-r from-violet-50 to-fuchsia-50 border-violet-500 shadow-md'
                                                                     : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                                                                 }
                                                             `}
@@ -1056,10 +1060,10 @@ export function ReviewForm() {
                             }}
                         />
 
-                        <div className="p-5 bg-gradient-to-r from-gray-50 to-white border-t border-gray-100">
+                        <div className="p-5 bg-linear-to-r from-gray-50 to-white border-t border-gray-100">
                             <Button
                                 type="submit"
-                                className="w-full h-12 text-sm font-bold bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white rounded-xl shadow-lg shadow-violet-500/25 transition-all active:scale-[0.98] group"
+                                className="w-full h-12 text-sm font-bold bg-linear-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white rounded-xl shadow-lg shadow-violet-500/25 transition-all active:scale-[0.98] group"
                             >
                                 Continue to Customer Info
                                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1079,7 +1083,7 @@ export function ReviewForm() {
                 
                 <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                        <div className="w-10 h-10 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
                             <User className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -1263,7 +1267,7 @@ export function ReviewForm() {
                                         <FormControl>
                                             <Textarea
                                                 placeholder="What did the customer appreciate most? e.g., excellent service, product quality..."
-                                                className="min-h-[80px] text-sm border-gray-200 rounded-xl focus:border-amber-500 focus:ring-amber-500/20 resize-none transition-all"
+                                                className="min-h-20 text-sm border-gray-200 rounded-xl focus:border-amber-500 focus:ring-amber-500/20 resize-none transition-all"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -1345,7 +1349,7 @@ export function ReviewForm() {
                             />
                         </div>
 
-                        <div className="p-5 bg-gradient-to-r from-gray-50 to-white border-t border-gray-200 space-y-3 sticky bottom-0">
+                        <div className="p-5 bg-linear-to-r from-gray-50 to-white border-t border-gray-200 space-y-3 sticky bottom-0">
                             {customerForm.formState.errors.root && (
                                 <p className="text-xs text-red-500 text-center">{customerForm.formState.errors.root.message}</p>
                             )}
@@ -1362,7 +1366,7 @@ export function ReviewForm() {
                                 <Button
                                     type="submit"
                                     disabled={isGenerating}
-                                    className="flex-[2] h-12 text-sm font-bold bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 hover:from-violet-600 hover:via-fuchsia-600 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-violet-500/30 transition-all active:scale-[0.98] group"
+                                    className="flex-2 h-12 text-sm font-bold bg-linear-to-r from-violet-500 via-fuchsia-500 to-pink-500 hover:from-violet-600 hover:via-fuchsia-600 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-violet-500/30 transition-all active:scale-[0.98] group"
                                 >
                                     {isGenerating ? (
                                         <>
@@ -1407,7 +1411,7 @@ export function ReviewForm() {
                                 placeholder="e.g., Make it shorter, mention gold purity, sound more casual..."
                                 value={improvementHint}
                                 onChange={(e) => setImprovementHint(e.target.value)}
-                                className="min-h-[100px] text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 resize-none"
+                                className="min-h-25 text-sm border-gray-200 rounded-xl focus:border-violet-500 focus:ring-violet-500/20 resize-none"
                             />
                         </div>
                         <DialogFooter className="gap-2 sm:gap-0">
@@ -1420,7 +1424,7 @@ export function ReviewForm() {
                             </Button>
                             <Button
                                 onClick={handleRegenerate}
-                                className="bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white rounded-xl"
+                                className="bg-linear-to-r from-violet-500 to-fuchsia-600 hover:from-violet-600 hover:to-fuchsia-700 text-white rounded-xl"
                             >
                                 <RefreshCw className="w-4 h-4 mr-2" />
                                 Regenerate
@@ -1430,7 +1434,7 @@ export function ReviewForm() {
                 </Dialog>
 
                 {/* Header */}
-                {/* <div className="px-5 py-4 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500">
+                {/* <div className="px-5 py-4 bg-linear-to-r from-violet-500 via-fuchsia-500 to-pink-500">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
                             <Bot className="w-5 h-5 text-white" />
@@ -1446,7 +1450,7 @@ export function ReviewForm() {
                     {/* Generated Review */}
                     <div>
                         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Google Review</p>
-                        <div className="relative bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 rounded-2xl p-5 border border-violet-200 shadow-inner overflow-hidden">
+                        <div className="relative bg-linear-to-br from-violet-50 via-fuchsia-50 to-pink-50 rounded-2xl p-5 border border-violet-200 shadow-inner overflow-hidden">
                             {regeneratingTarget === "review" && (
                                 <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] rounded-2xl flex items-center justify-center">
                                     <div className="flex flex-col items-center gap-3">
@@ -1456,11 +1460,11 @@ export function ReviewForm() {
                                         </div>
                                         <p className="text-sm font-semibold text-violet-700">Regenerating review...</p>
                                     </div>
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-violet-200/30 to-transparent animate-shimmer" />
+                                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-violet-200/30 to-transparent animate-shimmer" />
                                 </div>
                             )}
                             <div className="flex items-start gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/30 border border-violet-100">
+                                <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shrink-0 shadow-lg shadow-violet-500/30 border border-violet-100">
                                     <BrandLogo size={32} className="rounded-md" />
                                 </div>
                                 <div className="flex-1">
@@ -1511,9 +1515,9 @@ export function ReviewForm() {
                     </div>
 
                     {/* Send Smart Link via WhatsApp */}
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-5 border border-green-200">
+                    <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-2xl p-5 border border-green-200">
                         <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/30">
+                            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/30">
                                 <Share2 className="w-5 h-5 text-white" />
                             </div>
                             <div>
@@ -1524,7 +1528,7 @@ export function ReviewForm() {
                         <Button
                             onClick={createSmartLink}
                             disabled={isCreatingLink}
-                            className="w-full h-12 text-sm font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg shadow-green-500/30 transition-all active:scale-[0.98] cursor-pointer group"
+                            className="w-full h-12 text-sm font-bold bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg shadow-green-500/30 transition-all active:scale-[0.98] cursor-pointer group"
                         >
                             {isCreatingLink ? (
                                 <>
